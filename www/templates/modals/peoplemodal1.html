@@ -11,28 +11,45 @@
     <div class="card">
       <div class="item item-text-wrap">
 
-        This page shows the people available in this line.
+            This page shows the people available in this line.
 
-        <div >
-          <div class="bob3 item item-text-wrap" style="font-size: 25px; ">
-            Please either: <br>
-            1) Add Yourself to line  <br>
-            2) Select a Person
-          </div>
-        </div>
-        <div>
-            <div style="font-size: 20px;   text-align:left ">
-              Press to Enter Delete Mode:  <br>
-              <button type="button" style="width:100%" ng-click="deleteMode()" data-dismiss="modal" class="btn btn-danger">Delete Mode</button> <br>
-              Please Note: You only have authority to
-              delete Stores from rows that you created.
+              <div class="bob3 item item-text-wrap" style="font-size: 25px; ">
+                Please either: <br>
+                1) Add Yourself to line  <br>
+                2) Select a Person
+              </div>
 
-            </div>
 
-        </div>
 
+                <div class="bob3 item item-text-wrap" style="font-size: 25px; "> <br>
+                  As Administrator you can Add Name to Lineup in certain Position:
+                </div>
+
+
+
+                <div class="bar bar-header item-input-inset">
+                    <label class="item-input-wrapper" >
+                      <i class="icon ion-ios-search placeholder-icon"></i>
+                      <input type="search" ng-model="addnameLine.line"  placeholder="Please add a Store Name">
+                    </label>
+                    {{addnameLine.line}}
+                    <button class="button button-clear" ng-click="addpersonAfter()" style="color:black">
+                      Add
+                    </button>
+
+                </div>
+                <br>
+
+
+
+                <div class="bob3" style="font-size: 20px;   text-align:center ">
+                <span style="font-size:25px;">  Press to Enter Delete Mode: </span>
+                  <button type="button" style="width:150px;" ng-click="deleteMode()" data-dismiss="modal" class="btn btn-danger">Delete Mode</button> <br>
+                  Please Note: As Administrator you can delete any person from line.
+                </div>
+
+      </div>
     </div>
-  </div>
 
 
   </ion-content>

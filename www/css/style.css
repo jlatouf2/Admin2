@@ -13,8 +13,8 @@
 /* Center the loader */
 #loader {
   position: absolute;
-  left: 50%;
-  top: 180px;
+  left: 67%;
+  top: 300px;
   z-index: 1;
   width: 80px;
   height: 80px;

@@ -2,12 +2,6 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
 
   // Form data for the login modal
   $scope.loginData = {};
@@ -42,7 +36,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('firstController', function($scope, $location, $http, $rootScope, $ionicModal, AuthService) {
-console.log('worked');
+
           $scope.email = "jlatouf2@gmail.com"
           $scope.password = "jarredl"
           $scope.blue = function(){  console.log('white;');}
@@ -62,29 +56,6 @@ console.log('worked');
 
         var currentLocation = window.location;
         console.log(currentLocation);
-
-
-        //THIS IS HOW YOU EMIT WITH CALLBACK
-        $scope.emitACK = function () {
-        					console.log('socket1');
-            socket.emit('echo-ack', $scope.dataToSend, function (data) {
-        console.log("This is data: "+data);
-            //    $scope.serverResponseACK = data;
-            });
-            $scope.dataToSend = '';
-        };
-
-        //CALLBACK WORKS
-        $scope.ferretblock = function() {
-          socket.emit('ferret', 'black',function (data) {
-              console.log(data);
-              console.log('ldskjflsd'); // data will be 'woot'
-
-               $scope.$apply(function () {
-                    $scope.blue = data;
-                 });
-          });
-      };
 
 
 
@@ -322,6 +293,7 @@ console.log('worked');
           // NOTE: THIS STOPS THE LOADER
          document.getElementById("loader").style.display = "none";
          $rootScope.words = ''
+         $rootScope.wordspace = false;
 
         });
              console.log(lat22 + '   ' + long22)
@@ -380,7 +352,7 @@ console.log('worked');
               $scope.numberLinesZero = true;
               $scope.findGPS();
               $rootScope.words = 'Please wait a moment for coordinates'
-
+              $rootScope.wordspace = true;
               //    getCoordinates();
               //    $("#optionsModal").modal("show");
             //  $rootScope.Coordinates = "Please wait a moment for coordinates!";
@@ -1225,6 +1197,50 @@ socket.on('deleteUpdate', function (data) {
           };
 
 
+          // Template for Storenames Modal
+          $ionicModal.fromTemplateUrl('templates/modals/peoplemodal3.html', {
+            scope: $scope
+          }).then(function(modal) {
+            $scope.modal8 = modal;
+          });
+
+          $scope.closepeoplemodal3 = function() {
+            $scope.modal8.hide();
+          };
+
+          // Open the login modal
+          $scope.openpeoplemodal3 = function() {
+            $scope.modal8.show();
+          };
+
+
+console.log('skfjlskajlfdlk');
+
+          //  $scope.storeName = {sname : "white"};
+            $scope.addnameLine ={line:""};
+
+
+
+          /* ----------ADDPEOPLE FUNCTION 2 -------------- */
+
+         $scope.addpersonAfter = function(){
+           console.log($scope.addnameLine.line);
+
+            socket.emit('addPerson244', {store : $scope.grabStorename, line: $scope.grabLineNumber,
+                   email: 'jlatouf33@gmail.com', fullname: $scope.fullName,  longitude: $scope.longitude,
+                   latitude: $scope.latitude, distance: $scope.finalCalc, number: $scope.addnameLine.line,
+                   Adminpassword: $scope.usertoken },function (data) {
+
+                     $scope.$apply(function () {
+                       console.log(data);   console.log(data.email);
+                        $scope.people.push(data);
+                      }``);
+
+               });
+                $scope.closepeoplemodal1();
+           }
+
+
         /* ----------GET PEOPLE FROM PEOPLELINE DATABASE -------------- */
         /*
           $http.post('/getPeopleLine', {store : $scope.grabStorename, line: $scope.grabLineNumber,
@@ -1499,7 +1515,7 @@ socket.on('deleteUpdate', function (data) {
                          $scope.$apply(function () {
                            console.log(data);   console.log(data.email);
                             $scope.people.push(data);
-                            });
+                          }``);
 
                    });
                     $scope.closepeoplemodal2();

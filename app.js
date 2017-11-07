@@ -106,19 +106,6 @@ io.on('connection', function(socket){
       });
 
 
-
-      socket.on('ferret', function (data, callback) {
-        console.log(data);
-        callback('DATA PASSED BACK')
-      //  io.emit('echo3', data);
-      });
-
-      socket.on('echo-ack', function (data, callback) {
-        console.log('wokrekdldkjf');
-                //  callback(data);
-                 io.emit('acho-ack', data);
-        });
-
       socket.on('storeName', function (data, callback) {
         console.log('data passed'); console.log(data);
           Store.find( {postal: data.postal})
@@ -337,7 +324,45 @@ io.on('connection', function(socket){
         });
       });
 
+
+      socket.on('addPerson244', function (data, callback) {
+        console.log(data.number);
+        number = data.number;
+            PeopleLine.find({store: data.store, line: data.line})
+            .sort('created')
+            .exec(function(err, posts) {
+            if (err) { return next(err) }
+             console.log(posts);
+
+              //gets certain timestamp:
+              var blue = posts[number].created;
+              console.log(blue);
+              var  white = blue.addSeconds(1)
+              console.log(white);
+
+
+             var newUser2 = PeopleLine({
+               email : data.email, line: data.line,
+               position: data.position,  store: data.store,
+               fullname : data.fullName,  longitude: data.longitude,
+               latitude: data.latitude,  distance: data.distance,
+               created: white
+             });
+
+             newUser2.save(function (err, post) {
+               if (err) {return next(err); }
+               callback(post);     console.log(post);
+             });
+
+             })
+
+      });
+
+
 });
+
+
+
 
 
 //curl -X POST  http://localhost:3000/signup22
@@ -1075,13 +1100,132 @@ app.post('/deleteselectedStore', function (req, res, next) {
         });
     })
 
-    /*
+ Date.prototype.addMinutes = function(minutes) {
+     var copiedDate = new Date(this.getTime());
+     return new Date(copiedDate.getTime() + minutes * 60000);
+ }
 
+ Date.prototype.addSeconds = function(seconds) {
+     var copiedDate = new Date(this.getTime());
+     return new Date(copiedDate.getTime() + seconds * 1000);
+ }
+
+ Date.prototype.addmSeconds = function(mseconds) {
+     var copiedDate = new Date(this.getTime());
+     return new Date(copiedDate.getTime() + mseconds * 100);
+ }
+
+
+ var now = new Date();
+ console.log(""+now);
+ console.log( "THIS IS DATE OBJECT:" + now.addMinutes(1));
+
+ var now = new Date();
+ console.log(""+now);
+ console.log( "THIS IS DATE OBJECT:" + now.addSeconds(1));
+
+/*
+ var d = new Date();
+ var n = d.getTime() ;
+ var n1 = d.getTime() + 2 * 60000;
+console.log(n);
+console.log(n1);
+
+var d = new Date();
+console.log(d);
+
+d.setMilliseconds(192);
+var n = d
+console.log(n);
+*/
+var d = new Date();
+console.log(d);
+
+d.setMilliseconds(192);
+var n = d
+console.log(n);
+
+// curl -X POST -H 'Content-Type: application/json' -d '{"store":"blue", "line":"2"}' http://localhost:3000/addPerson2
+
+// curl -X POST -H 'Content-Type: application/json' -d '{"number":"2"}' http://localhost:3000/addPerson2
+
+//curl -X POST  http://localhost:3000/addPerson2
+
+    app.post('/addPerson244', function (req, res, next) {
+        console.log(req.body.number);
+        number = req.body.number;
+
+          PeopleLine.find({store: req.body.store, line: req.body.line})
+          .sort('-created')
+          .exec(function(err, posts) {
+          if (err) { return next(err) }
+          //res.send(posts);
+           console.log(posts);
+
+            //gets certain timestamp:
+            var blue = posts[0].created;
+            console.log(blue);
+            var  white = blue.addSeconds(1)
+            console.log(white);
+
+
+           var newUser2 = PeopleLine({
+             email : req.body.email, line: req.body.line,
+             position: req.body.position,  store: req.body.store,
+             fullname : req.body.fullName,  longitude: req.body.longitude,
+             latitude: req.body.latitude,  distance: req.body.distance,
+             created: white
+           });
+
+           newUser2.save(function (err, post) {
+             if (err) {return next(err); }
+             res.send(post);     console.log(post);
+           });
+
+
+             })
+    })
+
+
+    /*
+    1) when you get back the sorted dates:
+
+      PeopleLine.find({store: req.body.store, line: req.body.line})
+      .sort('-created')
+      .exec(function(err, posts) {
+      if (err) { return next(err) }
+      res.send(posts);    console.log(posts);
+      })
+
+    2) use posts[n-1].created  -this gets timestamp
+      var blue = posts[n].created;
+
+    3) var blue = timestamp + .002  -this adds to timestamp to put it in right places
+      var white = blue + .002;
+
+    4) use add  var newUser2 = PeopleLine({}) with the new created at date as variable
+
+    app.post('/peoplelineInfo', function (req, res, next) {
+      var newUser2 = PeopleLine({   });
+      newUser2.save
+
+     at array[2] {
+     find date at
+   }
     app.post('/deletePeop', function (req, res, next) {
         PeopleLine.find({store: req.body.store, line: req.body.line}).exec(function(err, posts) {
         if (err) { return next(err) }
         res.send(posts);    console.log(posts);
           })
+    })
+
+    app.post('/addPerson2', function (req, res, next) {
+        PeopleLine.find({store: req.body.store, line: req.body.line})
+        .sort('-created')
+        .exec(function(err, posts) {
+        if (err) { return next(err) }
+        res.send(posts);    console.log(posts);
+             })
     })
 
     app.post('/deletePeop', function (req, res, next) {
@@ -1090,6 +1234,24 @@ app.post('/deleteselectedStore', function (req, res, next) {
         res.send(posts);    console.log(posts);
           })
     })
+
+
+    //curl -X POST localhost:3000/peoplelineInfo
+
+    app.post('/peoplelineInfo', function (req, res, next) {
+      var newUser2 = PeopleLine({
+        email : req.body.email, line: req.body.line,
+        position: req.body.position,  store: req.body.store,
+        fullname : req.body.fullName,  longitude: req.body.longitude,
+        latitude: req.body.latitude,  distance: req.body.distance
+      });
+
+      newUser2.save(function (err, post) {
+        if (err) {return next(err); }
+        res.send(post);     console.log(post);
+      });
+    });
+
 
     */
 
