@@ -6,11 +6,10 @@
     </div>
   </ion-header-bar>
   <ion-content>
-
-
     <div class="card">
       <div class="item item-text-wrap">
 
+        <!------- PAGE INFO --------->
             This page shows the people available in this line.
 
               <div class="bob3 item item-text-wrap" style="font-size: 25px; ">
@@ -19,13 +18,32 @@
                 2) Select a Person
               </div>
 
+              <!------- ADD YOURSELF --------->
+                <div class="bob3 item item-text-wrap" style="font-size: 25px; text-align:center;">
+                  Please either: <br>
+                    {{fullName || "Full Name"}} {{userdata.facebook.name}}<br>
+                  Email: {{useremail || "User Email"}}<br>
+                  ID: {{userid || "User ID"}}<br>
+                  Token: {{usertoken || "User Token"}}<br>
 
+                  <p id="demo2" style="font-weight: bold;"></p>
+                  Displacement: {{finalCalc}}
+
+                  <div style="font-size: 20px;   text-align:center ">
+                Press to Add to Table:  <br>
+                <button type="button" style="width:200px" ng-click="addPeopletoDB()" data-dismiss="modal" class="btn btn-primary">Add Data</button> <br>
+
+                  </div>
+
+                </div>
+
+
+
+              <!------- ADD NAME TO LINEUP IF YOUR ADMINISTRATOR --------->
 
                 <div class="bob3 item item-text-wrap" style="font-size: 25px; "> <br>
                   As Administrator you can Add Name to Lineup in certain Position:
                 </div>
-
-
 
                 <div class="bar bar-header item-input-inset">
                     <label class="item-input-wrapper" >
@@ -41,7 +59,7 @@
                 <br>
 
 
-
+                <!------- DELETE MODE! --------->
                 <div class="bob3" style="font-size: 20px;   text-align:center ">
                 <span style="font-size:25px;">  Press to Enter Delete Mode: </span>
                   <button type="button" style="width:150px;" ng-click="deleteMode()" data-dismiss="modal" class="btn btn-danger">Delete Mode</button> <br>

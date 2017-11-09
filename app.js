@@ -112,10 +112,8 @@ io.on('connection', function(socket){
             .exec(function(err, posts) {
               if (err) { return next(err) }
                   callback(posts);
-                //  io.emit('updateStores', posts);
                   console.log(posts );
             })
-          //  io.emit('echo3', data);
       });
 
       socket.on('storenameSearch', function (data, callback) {
@@ -129,8 +127,7 @@ io.on('connection', function(socket){
       });
 
       socket.on('addStore', function (data, callback) {
-        console.log(data);
-        console.log(data.store);
+        console.log(data); console.log(data.store);
         console.log(data.latitude);
 
         var store = new Store({
@@ -148,16 +145,6 @@ io.on('connection', function(socket){
 
       });
 
-      socket.on('deleteselectedStore', function (data, callback) {
-         console.log(data);
-         Store.remove({store: data.store}, function(err,removed) {
-             Store.find().exec(function(err, posts) {
-               if (err) { return next(err) }
-                    console.log(posts);
-               callback(posts);
-             })
-         });
-      });
 
       socket.on('deleteStore44', function (data, callback) {
          console.log(data);
@@ -381,24 +368,6 @@ app.post('/deletePeop', function (req, res, next) {
 
 
 */
-
-
-/*---------- DELETE LINES  --------------*/
-//curl -X POST  http://localhost:3000/deleteStore
-
-app.post('/deleteselectedLine', function (req, res, next) {
-  console.log('store: '+req.body.store);
-  console.log('line: '+req.body.line);
-  Storeline.remove({ $and: [{store: req.body.store}, {line: req.body.line}]}, function(err,removed) {
-    Storeline.find({store: req.body.store}).exec(function(err, posts) {
-      if (err) { return next(err) }
-      res.send(posts);      console.log(posts);
-    })
-  });
-})
-
-
-
 
 /*---------- SIGNUP FUNCTION: --------------*/
 
@@ -775,29 +744,8 @@ app.post('/jp', function (req, res) {
 
          });
 
-/*
-
-<strong>id</strong>: <%= user.twitter.id %><br>
-<strong>token</strong>: <%= user.twitter.token %><br>
-<strong>username</strong>: <%= user.twitter.username %><br>
-<strong>displayName</strong>: <%= user.twitter.displayName %>
-
-http://192.168.1.115:3000/auth/twitter/callback
-
-var hostname = req.headers.host; // hostname = 'localhost:8080'
-var pathname = url.parse(req.url).pathname; // pathname = '/MyApp'
-console.log('http://' + hostname );
-
-  -change CallbackURL:
-callbackURL     : 'https://shitapp01.herokuapp.com/auth/twitter/callback'
-
-  ON TWITTER DEVELOPER:
-    https://apps.twitter.com/app/14357810/settings:
-1) Website:   https://shitapp01.herokuapp
-2)Callback URL:   https://shitapp01.herokuapp.com/auth/twitter/callback
 
 
-*/
 
 
 
@@ -875,144 +823,6 @@ app.post('/stuff', function (req, res, next) {
 
 })
 
-
-/*---------- STORENAME FUNCTION: --------------*/
-//curl -X POST  http://localhost:8100/storeName
-
-app.post('/storeName', function (req, res, next) {
-    Store.find( {postal: req.body.postal})
-      .exec(function(err, posts) {
-        if (err) { return next(err) }
-           var black = JSON.stringify(posts);
-
-      res.send(posts)
-      console.log(black ); console.log(posts );
-
-      })
-})
-
-
-/*---------- SEARCH STORE --------------*/
-
-app.post('/storenameSearch', function (req, res, next) {
-    Store.find( {store: req.body.store})
-      .exec(function(err, posts) {
-        if (err) { return next(err) }
-    res.send(posts); console.log(posts );
-      })
-})
-
-
-
-/*---------- ADDSTORE FUNCTION: --------------*/
-app.post('/addStore', function (req, res, next) {
-    var store = new Store({
-    store: req.body.store,  postal: req.body.postal,
-    latitude: req.body.latitude, longitude: req.body.longitude,
-    Adminpassword: req.body.Adminpassword  })
-
-    store.save(function (err, post) {
-      if (err) { return next(err) }
-     res.json(201, post)
-     console.log(post);
-  })
-})
-
-/*---------- ADDSTORE FUNCTION: --------------*/
-app.post('/getLineCoordinates', function (req, res, next) {
-  Store.find( {store: req.body.store})
-    .exec(function(err, posts) {
-      if (err) { return next(err) }
-    res.send(posts);  console.log(posts );
-    })
-})
-
-
-
-/*---------- DELETE STORE  --------------*/
-//curl -X POST  http://localhost:3000/deleteStore
-
-app.post('/deleteselectedStore', function (req, res, next) {
-  Store.remove({store: req.body.store}, function(err,removed) {
-      Store.find().exec(function(err, posts) {
-        if (err) { return next(err) }
-        res.send(posts);      console.log(posts);
-      })
-  });
-})
-
-
-
-/*---------- DELETE STORE  --------------*/
-
-  app.post('/deleteStore44', function (req, res, next) {
-    //DELETE FUNCTION:
-    console.log("store: " + req.body.store);
-    Store.remove({store: req.body.store}, function(err,removed) {
-        Store.find().exec(function(err, posts) {
-          if (err) { return next(err) }
-          res.send(posts);      console.log(posts);
-        })
-      });
-    });
-
-
-    /*---------- LINE NUMBER FUNCTION: --------------*/
-    //curl -X POST  http://localhost:3000/numberofLines
-
-  app.post('/numberofLines', function (req, res, next) {
-      Storeline.find({store: req.body.store}, function( err, count){
-          console.log( "Number of users:", count );   res.send(count)
-        })
-  })
-
-
-
-  /*---------- LOGIN FUNCTION: --------------*/
-  //curl -X POST  http://localhost:3000/addLine1
-
-  app.post('/addLine1', function (req, res, next) {
-    console.log("number sent to DB: " + req.body.line);
-    console.log("token: " + req.body.Adminpassword);
-
-          Storeline.count({ $and: [{store: req.body.store}, {line:req.body.line}]}   )
-            .exec(function(err, count) {
-                if (err) { return next(err) }
-
-             console.log( "Number of users:", count );
-            if (count == 1) {
-              console.log('fcn ended b/c its in table');
-          } else {
-
-              var storeline = new Storeline({
-              store: req.body.store, line: req.body.line,
-              Adminpassword: req.body.Adminpassword   })
-
-              storeline.save(function (err, post) {
-                if (err) { return next(err) }
-                res.send(post)
-          })
-        }
-    })
-  })
-
-  /*---------- DELETE LINES  --------------*/
-  //curl -X POST  http://localhost:3000/deleteStore
-
-  app.post('/deleteselectedLine', function (req, res, next) {
-    console.log('store: '+req.body.store);
-    console.log('line: '+req.body.line);
-    Storeline.remove({ $and: [{store: req.body.store}, {line: req.body.line}]}, function(err,removed) {
-      Storeline.find({store: req.body.store}).exec(function(err, posts) {
-        if (err) { return next(err) }
-        res.send(posts);      console.log(posts);
-      })
-    });
-  })
-
-
-
-
     /*---------- CHECKLINEADMIN --------------*/
 
     app.post('/checkLineAdmin', function (req, res, next) {
@@ -1034,14 +844,6 @@ app.post('/deleteselectedStore', function (req, res, next) {
       } else{
         console.log("Adminpassword was equal to undefined so query did not run!");
       }
-    })
-
-    app.post('/getPeopleLine', function (req, res, next) {
-      PeopleLine.find({ $and: [{store: req.body.store}, {line: req.body.line}]})
-        .exec(function(err, posts) {
-            if (err) { return next(err) }
-            res.send(posts);    console.log(posts );
-          })
     })
 
 
@@ -1150,41 +952,6 @@ console.log(n);
 // curl -X POST -H 'Content-Type: application/json' -d '{"number":"2"}' http://localhost:3000/addPerson2
 
 //curl -X POST  http://localhost:3000/addPerson2
-
-    app.post('/addPerson244', function (req, res, next) {
-        console.log(req.body.number);
-        number = req.body.number;
-
-          PeopleLine.find({store: req.body.store, line: req.body.line})
-          .sort('-created')
-          .exec(function(err, posts) {
-          if (err) { return next(err) }
-          //res.send(posts);
-           console.log(posts);
-
-            //gets certain timestamp:
-            var blue = posts[0].created;
-            console.log(blue);
-            var  white = blue.addSeconds(1)
-            console.log(white);
-
-
-           var newUser2 = PeopleLine({
-             email : req.body.email, line: req.body.line,
-             position: req.body.position,  store: req.body.store,
-             fullname : req.body.fullName,  longitude: req.body.longitude,
-             latitude: req.body.latitude,  distance: req.body.distance,
-             created: white
-           });
-
-           newUser2.save(function (err, post) {
-             if (err) {return next(err); }
-             res.send(post);     console.log(post);
-           });
-
-
-             })
-    })
 
 
     /*

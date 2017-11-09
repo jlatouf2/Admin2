@@ -1,119 +1,21 @@
 <ion-view view-title="Storelines">
   <ion-content>
-  <!--  <p id="geolocation" style="font-weight: bold;"></p>   -->
 
-  <!--<div style="padding-left:50px; padding-right:50px; "> -->
-
-        <!-- HEADER -->
-  <div style="color:white; text-align: center; background-color: #4881ea; vertical-align: middle;
-      line-height: 50px;   font-size: 15px;" >
-      <span style="margin-left:50px"> </span>
-      <span  style="">Lines Available </span>
-      <button type="button" class="btn btn-default" ng-click="openlinemodal1()" style="line-height: 20px;
-       background-color: #4881ea;  border-style: none; float: right; font-size: 25px; margin-top:5px; margin-right:10px">
-      <span style="color:white" class="glyphicon glyphicon-plus"></span>
-      </button>
-  </div>
-
-
-
-        <!-- TITLE -->
-  <h1 class="bob3" style="text-align:center;">Lines Available in Store: {{grabStorename || 'StoreName Not Passed!'}} </h1>
-
-
-        <!--
-        {{latitude}}
-        {{longitude}}
-
-        OPTIONS  MODAL BEGINS
-  <div class="modal fade" id="optionsModal2" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h1 class=" bob3" style="font-size: 30px; text-align:center ">Storeline Information</h1>
-                This page shows the lines available in this store.
-
-          </div>
-        <div class="modal-body">
-          <div class="bob3 item item-text-wrap" style="font-size: 25px; ">
-            Please either: <br>
-            1) Select a line  <br>
-            2) Create another line
-          </div>
-        </div>
-        <div class="modal-footer">
-            <div style="font-size: 20px;   text-align:left ">
-              Press to Enter Delete Mode:  <br>
-              <button type="button" style="width:100%" ng-click="deleteMode()" data-dismiss="modal" class="btn btn-danger">Delete Mode</button> <br>
-              Please Note: You only have authority to
-              delete Stores from rows that you created.
-
-            </div>
-
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+            <!-- HEADER -->
+      <div style="color:white; text-align: center; background-color: #4881ea; vertical-align: middle;
+          line-height: 50px;   font-size: 15px;" >
+          <span style="margin-left:50px"> </span>
+          <span  style="">Lines Available </span>
+          <button type="button" class="btn btn-default" ng-click="openlinemodal1()" style="line-height: 20px;
+           background-color: #4881ea;  border-style: none; float: right; font-size: 25px; margin-top:5px; margin-right:10px">
+          <span style="color:white" class="glyphicon glyphicon-plus"></span>
+          </button>
       </div>
-    </div>
-  </div>
--->
 
-      <!-- MODAL BEGINS
-      <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h1 class=" bob3" style="font-size: 30px; text-align:center ">Storeline Information</h1>
-                    This page shows the lines available in this store.
 
-              </div>
-            <div class="modal-body">
-              <div class="bob3 item item-text-wrap" style="font-size: 25px; ">
-                Please either: <br>
-                1) Select a line  <br>
-                2) Create another line
-              </div>
-            </div>
-            <div class="modal-footer">
-                <span style="font-size: 20px;  ">   *Press and hold row to delete. </span>
+            <!-- TITLE -->
+      <h1 class="bob3" style="text-align:center;">Lines Available in Store: {{grabStorename || 'StoreName Not Passed!'}} </h1>
 
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
--->
-
-      <!-- Add line MODALS BEGINS
-      <div class="modal fade" id="myLineModal" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h1 class=" bob3" style="font-size: 30px; text-align:center ">AddLine Modal</h1>
-                    This page shows the lines that you can add to this store: {{grabStorename || "Storename not passed!"}}.
-
-              </div>
-            <div class="modal-body">
-              <div class=" item item-text-wrap" style="font-size: 25px; padding:30px ">
-              <div style="text-align:center">  Please select which line to add: <br> </div>
-              <div style="text-align:center">  <button type="button" style="" ng-click="One()" class="btn btn-primary">Line1</button>
-                <button type="button" style="" ng-click="Two()" class="btn btn-primary">Line2</button> </div>
-                <button type="button" style="width:100%" ng-click="Three()" class="btn btn-primary">Line3</button>
-                <button type="button" style="width:100%" ng-click="Four()" class="btn btn-primary">Line4</button>
-                <button type="button" style="width:100%" ng-click="Five()" class="btn btn-primary">Line5</button>
-              </div>
-            </div>
-            <div class="modal-footer">
-                <span style="font-size: 20px;  ">   *Press and hold row to delete. </span>
-
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
--->
 
       <!-- DELETE BUTTON -->
 
@@ -162,8 +64,6 @@
 
       <div style="height:40px;">
       </div>
-
-
 
 
   </ion-content>

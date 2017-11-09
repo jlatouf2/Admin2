@@ -3,36 +3,37 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
 
-  // Form data for the login modal
-  $scope.loginData = {};
+        // Form data for the login modal
+        $scope.loginData = {};
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
+        // Create the login modal that we will use later
+        $ionicModal.fromTemplateUrl('templates/login.html', {
+          scope: $scope
+        }).then(function(modal) {
+          $scope.modal = modal;
+        });
 
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
+        // Triggered in the login modal to close it
+        $scope.closeLogin = function() {
+          $scope.modal.hide();
+        };
 
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
+        // Open the login modal
+        $scope.login = function() {
+          $scope.modal.show();
+        };
 
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
+        // Perform the login action when the user submits the login form
+        $scope.doLogin = function() {
+          console.log('Doing login', $scope.loginData);
 
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
+          // Simulate a login delay. Remove this and replace with your login
+          // code if using a login system
+          $timeout(function() {
+            $scope.closeLogin();
+          }, 1000);
+        };
+
 })
 
 .controller('firstController', function($scope, $location, $http, $rootScope, $ionicModal, AuthService) {
@@ -59,21 +60,21 @@ angular.module('starter.controllers', [])
 
 
 
-        // Template for Modal
-    $ionicModal.fromTemplateUrl('templates/modals/loginmodal.html', {
-      scope: $scope
-    }).then(function(modal) {
-      $scope.modal1 = modal;
-    });
+            // Template for Modal
+        $ionicModal.fromTemplateUrl('templates/modals/loginmodal.html', {
+          scope: $scope
+        }).then(function(modal) {
+          $scope.modal1 = modal;
+        });
 
-    $scope.closeLogin1 = function() {
-      $scope.modal1.hide();
-    };
+        $scope.closeLogin1 = function() {
+          $scope.modal1.hide();
+        };
 
-    // Open the login modal
-    $scope.loginMod = function() {
-      $scope.modal1.show();
-    };
+        // Open the login modal
+        $scope.loginMod = function() {
+          $scope.modal1.show();
+        };
 
 
 
@@ -81,14 +82,24 @@ angular.module('starter.controllers', [])
 
 .controller('ContactController', function($scope, $location, $http, $state, $rootScope, AuthService) {
 
-          $rootScope.goback2 = function(){
-            console.log('clicked');
-            $state.go('home')
-          //    $location.path('/home');
-      //    window.location.href = "#/home";
-      //    window.location.replace("#/home");
+          $rootScope.goback2 = function(){ console.log('clicked'); $state.go('home'); }
+            //LOCALSTOREAGE IN ANGULARJS:
+          $scope.setLocal = function () {
+            localStorage.setItem("Name", "John");
+          };
 
-        }
+          $scope.getLocal = function () {
+            console.log(localStorage.getItem("Name"));
+          };
+
+          $scope.removeLocal = function () {
+            localStorage.removeItem("Name");
+          };
+
+          $scope.getLocalbyKey = function () {
+            console.log(localStorage.getItem("Name"));
+          };
+
 
         $scope.fname = "Jarred"; $scope.lname = "Latouf"; $scope.email = "jlatouf2@gmail.com";
         $scope.password = "jarredl"; $scope.passwordConf = "jarredl";
@@ -110,33 +121,6 @@ angular.module('starter.controllers', [])
           $scope.password.password1, $scope.passwordConf.passwordConf1); };
 
        /*  $scope.ServiceFunction5 = function () {console.log("clicked22");AuthService.LoginExample3($scope.email, $scope.password);}; */
-
-
-       // Open the login modal
-       $scope.fbPass = function() {
-
-
-         $http.get('/auth/facebook', {postal: $scope.postal }).success(function( data)
-              {
-                $scope.numberLinesZero = false;
-                console.log("Data is returned: " + data);
-                $scope.countries = data;
-              }, function(posts) {});
-
-
-       };
-
-
-       $scope.Pass2 = function() {
-
-         $http.post('/touchit', ).success(function( data)
-              {
-                console.log("Data is returned: " + data);
-              }, function(posts) {});
-
-       };
-
-
 
 
       })
@@ -199,29 +183,6 @@ angular.module('starter.controllers', [])
 
 .controller('storeNamesCtrl', function($scope, $location, $http, $timeout, $cordovaGeolocation, $rootScope, $state, $ionicModal, AuthService) {
 
-          /*
-          AIzaSyALwS3F_V2K6Oq1q8v5-9zxUHfrvfknTEM
-
-          $http.post('/storeName', {postal: $scope.postal }).success(function( data)
-               {
-           console.log("Data is returned: " + data);
-           console.log("Data is returned name:: " + data[0]._id);
-           console.log("Data is returned name:: " + data[0].store);
-
-           $scope.countries = data;
-
-              }, function(posts) {});
-
-              1) When you add store / line / name  : add Admintoken to DB
-            ) when you go to delete them you have to check if you are admin.
-
-            storeName
-            storenameSearch
-            addStore
-            deleteselectedStore
-            deleteStore44
-          */
-
 
           $rootScope.goback2 = function(){
             console.log('clicked');
@@ -229,43 +190,20 @@ angular.module('starter.controllers', [])
             //  $location.path('/home');
           //  window.location.href = "#/home";
           //  window.location.replace("#/home");
-
         }
 
-
           // Template for Storenames Modal
-          $ionicModal.fromTemplateUrl('templates/modals/storemodal1.html', {
-          	scope: $scope
-          }).then(function(modal) {
-          	$scope.modal2 = modal;
-          });
-
-          $scope.closestoremodal1 = function() {
-          	$scope.modal2.hide();
-          };
-
-          // Open the login modal
-          $scope.openstoremodal1 = function() {
-          	$scope.modal2.show();
-          };
-
+          $ionicModal.fromTemplateUrl('templates/modals/storemodal1.html', { scope: $scope
+          }).then(function(modal) { $scope.modal2 = modal; });
+          $scope.closestoremodal1 = function() { $scope.modal2.hide(); };
+           $scope.openstoremodal1 = function() { $scope.modal2.show(); };
 
 
           // Template for Storenames Modal
-          $ionicModal.fromTemplateUrl('templates/modals/storemodal2.html', {
-          	scope: $scope
-          }).then(function(modal) {
-          	$scope.modal3 = modal;
-          });
-
-          $scope.closestoremodal2 = function() {
-          	$scope.modal3.hide();
-          };
-
-          // Open the login modal
-          $scope.openstoremodal2 = function() {
-          	$scope.modal3.show();
-          };
+          $ionicModal.fromTemplateUrl('templates/modals/storemodal2.html', { scope: $scope
+          }).then(function(modal) { $scope.modal3 = modal; });
+           $scope.closestoremodal2 = function() { $scope.modal3.hide(); };
+           $scope.openstoremodal2 = function() { $scope.modal3.show(); };
 
 
           $timeout(function(){
@@ -274,57 +212,45 @@ angular.module('starter.controllers', [])
 
 
 
-    $scope.findGPS = function(){
+          $scope.findGPS = function(){
+            setTimeout(function() {
+              // Do something every 3 seconds
+              var posOptions = {timeout: 10000, enableHighAccuracy: false};
+                 $cordovaGeolocation.getCurrentPosition(posOptions)
 
-      setTimeout(function() {
-        // Do something every 3 seconds
-        var posOptions = {timeout: 10000, enableHighAccuracy: false};
-           $cordovaGeolocation.getCurrentPosition(posOptions)
+                 .then(function (position) {
+                    var lat22  = position.coords.latitude; var long22 = position.coords.longitude
 
-           .then(function (position) {
-              var lat22  = position.coords.latitude
-              var long22 = position.coords.longitude
+              $scope.$applyAsync(function () {
+              $scope.latitude = lat22; $scope.longitude = long22; $scope.numberLinesZero = false;
 
-        $scope.$applyAsync(function () {
-        $scope.latitude = lat22;
-        $scope.longitude = long22;
-         $scope.numberLinesZero = false;
+                // NOTE: THIS STOPS THE LOADER
+               document.getElementById("loader").style.display = "none";
+               $rootScope.words = ''; $rootScope.wordspace = false;
 
-          // NOTE: THIS STOPS THE LOADER
-         document.getElementById("loader").style.display = "none";
-         $rootScope.words = ''
-         $rootScope.wordspace = false;
+               //saves coordinates in localstorage:
+               localStorage.setItem("StoreLatitude", lat22);
+               localStorage.setItem("StoreLongitude", long22);
+                console.log(localStorage.getItem("StoreLatitude"));
+                console.log(localStorage.getItem("StoreLongitude"));
 
-        });
-             console.log(lat22 + '   ' + long22)
-         }, function(err) {
-            console.log(err)
-         });
+              });
+                   console.log(lat22 + '   ' + long22)
+               }, function(err) {
+                  console.log(err)
+               });
 
-        }, 3000);
-};
-
-
+              }, 3000);
+          };
 
 
           /*
-    $http.post('http://192.168.1.115:3000/storeName', {postal: $scope.postal }).success(function( data)
+          $http.post('http://192.168.1.115:3000/storeName', {postal: $scope.postal }).success(function( data)
          {
            $scope.numberLinesZero = false;
            console.log("Data is returned: " + data);
            $scope.countries = data;
          }, function(posts) {});
-
-
-         $scope.emitACK = function () {
-                  console.log('socket1');
-             socket.emit('echo-ack', $scope.dataToSend, function (data) {
-         console.log("This is data: "+data);
-             //    $scope.serverResponseACK = data;
-             });
-             $scope.dataToSend = '';
-         };
-
         */
 
         socket.emit('storeName', {postal: $scope.postal },function (data) {
@@ -332,8 +258,6 @@ angular.module('starter.controllers', [])
               $scope.numberLinesZero = false;
               $scope.$apply(function () {   $scope.countries = data;  });
          });
-
-
 
          socket.on('updateStores', function (data) {
                 console.log(data);
@@ -344,164 +268,47 @@ angular.module('starter.controllers', [])
          });
 
 
-
           /*   --------STARTPAGE FUNCTION-----------     */
                 startPage();
 
           function startPage () {
-              $scope.numberLinesZero = true;
-              $scope.findGPS();
-              $rootScope.words = 'Please wait a moment for coordinates'
-              $rootScope.wordspace = true;
-              //    getCoordinates();
-              //    $("#optionsModal").modal("show");
-            //  $rootScope.Coordinates = "Please wait a moment for coordinates!";
+              $scope.numberLinesZero = true;   $scope.findGPS(); ;
+              $rootScope.words = 'Please wait a moment for coordinates';  $rootScope.wordspace = true;
           };
-
-          /*   --------NAVIGATION CHECK-----------     */
-          function getCoordinates () {
-            if(navigator && navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(geo_success, geo_error);
-            } else {
-              printAddress(geoip_latitude(), geoip_longitude(), true);
-            }
-          };
-
-          /*   --------GETS COORDINATES BUTTON-----------     */
-          function getCoordinatesButton () {
-            getCoordinates()
-          };
-
-
-      //http://localhost:5000
-      /*
-      $http.post('storeName', {postal: $scope.postal }).success(function( data)
-       {
-         $scope.numberLinesZero = false;
-         console.log("Data is returned: " + data);
-         $scope.countries = data;
-       }, function(posts) {});
-
-
-       var url = "http://localhost:8100/storeName";
-       $http({
-           method: 'JSONP',
-           url: url,
-           postal: $scope.postal
-       }).
-       success(function(status) {
-           //your code when success
-       }).
-       error(function(status) {
-           //your code when fails
-       });
-
-       var request = {postal: $scope.postal};
-           console.log(request);
-           $.ajax({
-               type: "POST",
-               url: this.wsUrl + "/storeName",
-               contentType: "text/plain",
-               data: JSON.stringify(request),
-
-               crossDomain: true,
-           });
-
-
-*/
-
 
 
           /*   --------GETS STORES-----------     */
           function getStoreNamesAfterCoordinates () {
-            /*    $http.post('/storeName', {postal: $scope.postal }).success(function( data)
-                 {
-                   $scope.numberLinesZero = false;
-                   console.log("Data is returned: " + data);
-                   $scope.countries = data;
-                 }, function(posts) {});
-           */
-
                  socket.emit('storeName', {postal: $scope.postal },function (data) {
-                     console.log(data);
-                     console.log(data[0].store);
+                     console.log(data); console.log(data[0].store);
                    $scope.numberLinesZero = false;
-
-                   $scope.$apply(function () {
-                       $scope.countries = data;
-                    });
+                   $scope.$apply(function () { $scope.countries = data; });
                  });
             };
 
 
             socket.on('updateStores', function (data) {
-                   console.log(data);
-                     $scope.numberLinesZero = false;
-                  $scope.$apply(function () {
-                      $scope.countries = data;
-                     });
+                   console.log(data);  $scope.numberLinesZero = false;
+                  $scope.$apply(function () {  $scope.countries = data;  });
             });
 
 
             /*   --------SEARCHES STORES-----------     */
           $scope.searchStores = function(){
-            /*
-            $http.post('/storenameSearch', {store: $scope.storesearchName }).success(function( data)
-                 {
-             console.log("Data is returned: " + data);
-             $scope.countries = data;
-                }, function(posts) {});
-            */
                 socket.emit('storenameSearch',  {store: $scope.storesearchName },function (data) {
                   console.log("Data is returned: " + data);
-                     $scope.$apply(function () {
-                      $scope.countries = data;
-                     });
-
+                     $scope.$apply(function () { $scope.countries = data; });
                 });
             }
 
 
-            /*   --------OPTIONS MODAL-----------     */
-            $scope.optionsModal = function(){
-                $("#optionsModal").modal("show");
-              }
-
-          /*
-              $scope.toggleModel = {
-                 value1 : true,
-                 value2 : false,
-                 value3 : false
-              };
-            */
-
-            //  $scope.storeName = {sname : "white"};
-              $scope.storeName ={sname:""};
-              $scope.fname = {fname1 : "Jarred"};
-              $scope.lname = {lname1 : "Latouf"};
-
-
+               $scope.storeName ={sname:""};
 
               /*   --------ADDS STORE TO DB-----------     */
             $scope.addStore1 = function(name){
-                console.log($scope.storeName.sname);
-                  console.log($scope.postal); console.log($scope.storeName);
-                  console.log($scope.latitude); console.log($scope.longitude);
-                  console.log("UserToken: "+ $scope.usertoken );
-
                   if ( $scope.storeName.sname == '') {
                     console.log('Please enter a name');
                       } else{
-                        /*   $http.post('/addStore', {store : $scope.storeName.sname, postal: $scope.postal, latitude: $scope.latitude,
-                          longitude: $scope.longitude, Adminpassword: $scope.usertoken }).success(function( data)
-                       {
-                         console.log("Data is returned: " + data);
-                            $rootScope.successful = true;
-                            console.log($scope.successful);
-                      $scope.countries.push(data)
-                    $scope.storeName.sname = '';
-                    setTimeout(function(){ stopSuccessBar(); }, 3000);
-                     }, function(posts) {});  */
                       socket.emit('addStore',  {store : $scope.storeName.sname, postal: $scope.postal, latitude: $scope.latitude,
                         longitude: $scope.longitude, Adminpassword: $scope.usertoken },function (data) {
                           console.log(data.store);
@@ -528,158 +335,18 @@ angular.module('starter.controllers', [])
 
               /*   --------TIMEOUT FCN-----------     */
               function stopSuccessBar () {
-              //  setTimeout(function() {   $(".alert").alert('close');   }, 2000);
-
-                $scope.$apply(function () {
-                  $rootScope.successful = false;
-                  console.log($scope.successful);
-                   });
-
+                  $scope.$apply(function () { $rootScope.successful = false; console.log($scope.successful); });
               };
-
-
-              /*   --------LOCATION TRACKING FCNS-----------     */
-
-            /*
-           //     $(document).ready(function () {
-
-                // wire up button click
-          //      $('#go').click(function () {
-                  // test for presence of geolocation
-                  if(navigator && navigator.geolocation) {
-                    // make the request for the user's position
-                    navigator.geolocation.getCurrentPosition(geo_success, geo_error);
-                  } else {
-                    // use MaxMind IP to location API fallback
-                    printAddress(geoip_latitude(), geoip_longitude(), true);
-                  }
-          //      });
-        //      });
-            */
-
-            function geo_success(position) {
-              $rootScope.Coordinates = "";
-            //  $scope.numberLinesZero = false;
-
-              printAddress(position.coords.latitude, position.coords.longitude);
-              $rootScope.latitude = position.coords.latitude;
-              $rootScope.longitude = position.coords.longitude;
-              getStoreNamesAfterCoordinates()
-               console.log($scope.latitude); console.log($scope.longitude);
-            }
-
-
-            function geo_error(err) {
-              $rootScope.Coordinates = "Coordinates not working!";
-              getStoreNamesAfterCoordinates();
-            console.log('DID NOT WORK!');
-            }
-
-              function printAddress(latitude, longitude, isMaxMind) {
-                  var geocoder = new google.maps.Geocoder();
-                  var yourLocation = new google.maps.LatLng(latitude, longitude);
-
-                  geocoder.geocode({ 'latLng': yourLocation }, function (results, status) {
-                  if(status == google.maps.GeocoderStatus.OK) {
-                    if(results[0]) {
-                      $('#results').fadeOut(function() {
-                        $(this).html('<p><b> This is postal code:</b></p><p><em>' + results[0].address_components[6].long_name + '</em></p>'
-                                      + $scope.latitude +'</em></p>'+ $scope.longitude).fadeIn();
-
-                            console.log('This is the correct postal code' + results[2].address_components[0].long_name);
-                           $rootScope.postal = results[0].address_components[6].long_name;
-
-                           getStoreNamesAfterCoordinates();
-
-                      })
-                    } else { error('Google did not return any results.'); }
-                  } else {  error("Reverse Geocoding failed due to: " + status); }
-                });
-
-                // if we used MaxMind for location, add attribution link
-                if(isMaxMind) {
-                  $('body').append('<p><a href="http://www.maxmind.com" target="_blank">IP to Location Service Provided by MaxMind</a></p>');
-                }
-              }
-
-              function error(msg) {   alert(msg);   }
-
-
-              /*   --------LOCATION DATA ON PAGE-----------     */
-
-            /*
-            var x = document.getElementById("demo");
-
-            x.innerHTML = "Geolocaiton data will not be recorded if Store Added";
-
-            $scope.getLocation = function() {
-                if (  navigator.geolocation) { navigator.geolocation.getCurrentPosition(showPosition);
-                } else {   x.innerHTML = "Geolocation is not supported by this browser.";   }
-            }
-
-
-            function showPosition(position) {
-                x.innerHTML = "Latitude: " + position.coords.latitude +
-                "<br>Longitude: " + position.coords.longitude  ;
-
-                console.log(position.coords.latitude);   console.log(position.coords.longitude);
-                console.log(position);
-
-            }
-
-            */
 
             /*   --------DELETENAME-----------     */
 
-            $scope.deleteName = function(name) {
-                console.log("name is: "+name);
-                $scope.storeName2 = name;
-                console.log($scope.storeName2);
-
-                /*
-              $http.post('/deleteselectedStore', {store : $scope.storeName2 }).success(function( data)
-               {
-                 console.log("Data is returned: " + data);
-                  $scope.countries = data;
-
-             }, function(posts) {});
-             */
-
-             socket.emit('deleteselectedStore',  {store:  $scope.storeName2  },function (data) {
-               console.log(data);
-
-               $scope.$apply(function () {
-                  $scope.countries = data;
-                  });
-
-
-             });
-
-
-          };
-
-          //TO FIX THE DELETE FROM RETURNING THE NAMES OF STORES WITH POSTAL CODES ON SUCCESS:
-          //ALL I HAVE TO DO IS MAKE IT PASS THE POSTAL CODE AS WELL WHICH WOULD BE ZERO
-          //WHICH ALLOWS IT TO PASS BACK ONLY STORES WITH NO POSTAL CODES.
           $scope.deleteName2 = function(name) {
-              console.log("name is: "+name);
-              $scope.storeName2 = name;
+              console.log("name is: "+name);  $scope.storeName2 = name;
               console.log($scope.storeName2);
-          /*
-              $http.post('/deleteStore44', {store : name, Adminpassword: $scope.usertoken }).success(function( data)
-                 {
-                   console.log(data);
-                   $scope.countries = data;
-
-               }, function(posts) {});
-          */
                socket.emit('deleteStore44',  {store:  $scope.storeName2  },function (data) {
-                 console.log(data);
-                  $scope.$apply(function () {
-                    $scope.countries = data;
-                    });
-               });
-
+               console.log(data);
+                $scope.$apply(function () { $scope.countries = data; });
+             });
 
         };
 
@@ -694,227 +361,42 @@ angular.module('starter.controllers', [])
           $scope.deleteMode = function(){   $rootScope.deleteButton = true; $scope.closestoremodal2();   }
 
             /* ----------EXIT DELETE MODE -------------- */
-
            $scope.exitDeleteMode = function(){    $rootScope.deleteButton = false;  }
 
-
              /*   --------LOCATION DATA ON PAGE-----------     */
-
-            //Grabs Storename to pass to next page
         	$scope.grabStuff = function(names){
               $rootScope.grabStorename = names;
               console.log('GrabStuff');
-              /*    THIS IS NOT ON B/C IT WILL DELETE THE LINE NOW THAT THE BACKEND CHANGED.
-              $http.post('/checkStoreAdmin', {store : $scope.grabStorename, Adminpassword: $scope.usertoken }).success(function( data)
-                 {
-                   console.log("Data is returned: " + data);
-               }, function(posts) {});
-               */
+
+              localStorage.setItem("StoreName", $scope.grabStorename);
+               console.log(localStorage.getItem("StoreName"));
         		};
-
-            $scope.playlists = [
-              { title: 'Reggae', id: 1 },
-              { title: 'Chill', id: 2 },
-              { title: 'Dubstep', id: 3 },
-              { title: 'Indie', id: 4 },
-              { title: 'Rap', id: 5 },
-              { title: 'Cowbell', id: 6 }
-            ];
-
 
     })
 
 
 .controller('StorelinesCtrl', function($scope, $location, $ionicModal, $cordovaGeolocation, $http, $rootScope, $state, AuthService) {
 
-    $rootScope.goback2 = function(){
-      console.log('clicked');
-      $state.go('storeNames')
-    //    $location.path('/storeNames');
-    //window.location.href = "#/storeNames";
-    //window.location.replace("#/storeNames");
-  };
+  console.log(localStorage.getItem("StoreName"));
+  console.log(localStorage.getItem("StoreLatitude"));
+  console.log(localStorage.getItem("StoreLongitude"));
 
 
-  /*
-  //  var y = document.getElementById("demo2");
-
-    function onSuccess(position) {
-        var element = document.getElementById('geolocation');
-        element.innerHTML = 'Latitude: '  + position.coords.latitude      + '<br />' +
-                            'Longitude: ' + position.coords.longitude     + '<br />' +
-                            '<hr />'      + element.innerHTML;
-    }
-
-    // onError Callback receives a PositionError object
-    //
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n');
-    }
-
-    // Options: throw an error if no update is received every 30 seconds.
-    //
-    var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 7000 });
-
-    var watch;
-    var watchOptions = {
-      timeout : 5000,
-      maximumAge: 3000,
-      enableHighAccuracy: true // may cause errors if true
-    };
-
-
-    var watchCurrentLocation = function() {
-      watch = $cordovaGeolocation.watchPosition(watchOptions);
-      watch.then(
-        null,
-        function(err) {
-          // error
-          console.log("watch error", err);
-        },
-        function(position) {
-          var lat  = position.coords.latitude
-          var long = position.coords.longitude
-
-          console.log('lat long', lat, long);
-          $scope.lastLocation.lat = $scope.currentLocation.lat;
-          $scope.lastLocation.long = $scope.currentLocation.long;
-
-          $scope.currentLocation.lat = lat;
-          $scope.currentLocation.long = long;
-      });
-    };
-
-
-
-  setInterval(function() {
-        // Do something every 3 seconds
-        var posOptions = {timeout: 10000, enableHighAccuracy: false};
-           $cordovaGeolocation.getCurrentPosition(posOptions)
-
-           .then(function (position) {
-              var lat  = position.coords.latitude
-              var long = position.coords.longitude
-              console.log(lat + '   ' + long)
-           }, function(err) {
-              console.log(err)
-           });
-
-  }, 3000);
-  */
-
-
+       $rootScope.goback2 = function(){ console.log('clicked'); $state.go('storeNames') };
 
       // Template for Storenames Modal
-      $ionicModal.fromTemplateUrl('templates/modals/linemodal1.html', {
-        scope: $scope
-      }).then(function(modal) {
-        $scope.modal4 = modal;
-      });
-
-      $scope.closelinemodal1 = function() {
-        $scope.modal4.hide();
-      };
-
-      // Open the login modal
-      $scope.openlinemodal1 = function() {
-        $scope.modal4.show();
-      };
-
+      $ionicModal.fromTemplateUrl('templates/modals/linemodal1.html', { scope: $scope
+      }).then(function(modal) { $scope.modal4 = modal; });
+      $scope.closelinemodal1 = function() {   $scope.modal4.hide(); };
+      $scope.openlinemodal1 = function() { $scope.modal4.show(); };
 
 
       // Template for Storenames Modal
       $ionicModal.fromTemplateUrl('templates/modals/linemodal2.html', {
         scope: $scope
-      }).then(function(modal) {
-        $scope.modal5 = modal;
-      });
-
-      $scope.closelinemodal2 = function() {
-        $scope.modal5.hide();
-      };
-
-      // Open the login modal
-      $scope.openlinemodal2 = function() {
-        $scope.modal5.show();
-      };
-
-
-      /*
-        NOTE: THIS IS COORDINATES INFORMAITON:
-
-        var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 30000 });
-
-
-        // onSuccess Callback
-        //   This method accepts a `Position` object, which contains
-        //   the current GPS coordinates
-        //
-        function onSuccess(position) {
-          console.log(position.coords.latitude);
-
-            var element = document.getElementById('geolocation');
-            element.innerHTML = 'Latitude: '  + position.coords.latitude      + '<br />' +
-                                'Longitude: ' + position.coords.longitude     + '<br />' +
-                                '<hr />'      + element.innerHTML;
-        }
-
-        // onError Callback receives a PositionError object
-        //
-        function onError(error) {
-            alert('code: '    + error.code    + '\n' +
-                  'message: ' + error.message + '\n');
-        }
-
-        // Options: throw an error if no update is received every 30 seconds.
-        //
-
-
-        setInterval(function() {
-              // Do something every 3 seconds
-              var posOptions = {timeout: 10000, enableHighAccuracy: false};
-                 $cordovaGeolocation.getCurrentPosition(posOptions)
-
-                 .then(function (position) {
-                    var lat  = position.coords.latitude
-                    var long = position.coords.longitude
-
-      $scope.$applyAsync(function () {
-        $scope.latitude = lat;
-        $scope.longitude = long;
-        });
-
-
-                    console.log(lat + '   ' + long)
-                 }, function(err) {
-                    console.log(err)
-                 });
-
-        }, 3000);
-*/
-
-        console.log($scope.grabStorename);
-
-      /*   --------GET A STORE TYPE WITH LINE IN IT-----------     */
-    /*
-        $http.post('/numberofLines', {store: $scope.grabStorename}).success(function( data)
-         {  console.log("Data isreturned: " + data);  console.log(data.length);
-          $rootScope.numberLines= data.length; $scope.countries = data;
-
-           //THIS WILL ALLOW THE TABLE TO BE EMPTY
-           if ($scope.numberLines == 0) {
-             $rootScope.numberLinesZero = true; console.log('data length is 0');
-           } else if($scope.numberLines > 0) {
-             $rootScope.numberLinesZero = false;
-           }
-         }, function(posts) {});
-
-         $scope.$apply(function () {
-           $scope.latitude = lat;  $scope.longitude = long;
-           });
-
-    */
+      }).then(function(modal) { $scope.modal5 = modal; });
+      $scope.closelinemodal2 = function() {  $scope.modal5.hide(); };
+      $scope.openlinemodal2 = function() { $scope.modal5.show();  };
 
 
     $scope.whiteLines = function(){
@@ -929,51 +411,20 @@ angular.module('starter.controllers', [])
 
      }
 
-
     socket.emit('numberofLines',  {store:  $scope.grabStorename  },function (data) {
       console.log(data); console.log(data.length);
-
-        $rootScope.numberLines= data.length;
-        $scope.countries = data;
-
+        $rootScope.numberLines= data.length;   $scope.countries = data;
         $scope.$apply(function () {
                  $scope.whiteLines();
            });
-
-        /*
-           //THIS WILL ALLOW THE TABLE TO BE EMPTY
-           if ($scope.numberLines == 0) {
-               $rootScope.numberLinesZero = true;
-               console.log('data length is 0');
-
-
-           } else if($scope.numberLines > 0) {
-               $rootScope.numberLinesZero = false;
-
-
-           }
-           */
-
     });
 
-
-
-
-
-
-   /*   --------OPTIONS MODAL-----------     */
-   $scope.optionsModal2 = function(){   $("#optionsModal2").modal("show");  }
 
    /*   --------DELETE MODE-----------     */
    $scope.deleteMode = function(){     $rootScope.deleteButton = true; $scope.closelinemodal1();    }
 
-
    /* ----------EXIT DELETE MODE -------------- */
     $scope.exitDeleteMode = function(){     $rootScope.deleteButton = false;    }
-
-
-  /*   --------LINE MODAL-----------     */
-   $scope.addLineMOdal = function(){     $("#myLineModal").modal("show");   }
 
    /*   --------LINE NUMBERS-----------     */
 
@@ -992,29 +443,16 @@ angular.module('starter.controllers', [])
 
      $scope.addLine1 = function(){
        $rootScope.numberLinesZero = false;
-          console.log("Number chosen: " + $scope.addNumberDB);
-          console.log("Token: " + $scope.usertoken);
+          console.log("Number chosen: " + $scope.addNumberDB);   console.log("Token: " + $scope.usertoken);
 
            if ( $scope.grabStorename == undefined) {
              console.log('Please get store name!');
                } else{
-                 /*
-                 $http.post('/addLine1', {store : $scope.grabStorename, line: $scope.addNumberDB, Adminpassword: $scope.usertoken })
-                 .success(function( data)
-                {
-                  console.log(data);
-                    //    THIS ADD SUCCESS BAR:
-                    $rootScope.successful = true;
-                    $scope.countries.push(data)
-                  setTimeout(function(){ stopSuccessBar(); }, 3000);
 
-              }, function(posts) {});
-                */
               socket.emit('addLine1',  {store : $scope.grabStorename, line: $scope.addNumberDB, Adminpassword: $scope.usertoken },function (data) {
                 console.log(data);
                 //    THIS ADD SUCCESS BAR:
-                $rootScope.successful = true;
-                $scope.countries.push(data)
+                $rootScope.successful = true; $scope.countries.push(data)
               setTimeout(function(){ stopSuccessBar(); }, 3000);
               });
              }
@@ -1023,9 +461,7 @@ angular.module('starter.controllers', [])
 
        socket.on('addLineStuff', function (data) {
          if($scope.grabStorename == data.store) {
-              console.log(data);
-              $rootScope.successful = true;
-               $scope.countries.push(data)
+              console.log(data); $rootScope.successful = true;  $scope.countries.push(data)
                setTimeout(function(){ stopSuccessBar(); }, 3000);
               }
        });
@@ -1033,36 +469,17 @@ angular.module('starter.controllers', [])
 
        /*   --------TIMEOUT-----------     */
        function stopSuccessBar () {
-         $scope.$apply(function () {
-           $rootScope.successful = false;
-            });
+         $scope.$apply(function () { $rootScope.successful = false; });
        };
-
-       /*
-       function stopSuccessBar () { setTimeout(function() {  $(".alert").alert('close');  }, 2000);
-         $rootScope.successful = false;
-       };
-  */
 
 
        /*   --------DELETE MODE-----------     */
         $scope.deleteLine = function(name) {
-          console.log("line is: "+name);
-          console.log("store name: "+ $scope.grabStorename);
-      //    $http.post('/deleteselectedLine', {line : name }).success(function( data)
-      /* $http.post('/deleteselectedLine', {line : name, store: $scope.grabStorename}).success(function( data)
-          {  console.log(data);    $scope.countries = data;
-           }, function(posts) {});
-           */
-            socket.emit('deleteselectedLine',  {line : name, store: $scope.grabStorename},function (data) {
+          console.log("line is: "+name);   console.log("store name: "+ $scope.grabStorename);
+             socket.emit('deleteselectedLine',  {line : name, store: $scope.grabStorename},function (data) {
             console.log(data);
-                $scope.$apply(function () {
-                       $scope.countries = data;
-                   });
-
-          //    $scope.countries = data;
-           });
-
+                $scope.$apply(function () {  $scope.countries = data;  });
+            });
         };
 
 
@@ -1075,320 +492,157 @@ angular.module('starter.controllers', [])
               $scope.countries = data;
                     });
             } else if ($scope.grabStorename == data[0].store ) {
-              $scope.$apply(function () {
-              $scope.countries = data;
-                    });
+              $scope.$apply(function () { $scope.countries = data;    });
             }
         });
 
-/*
 
-socket.on('deleteLinesUpdate', function (data) {
-  console.log(data);
-//  console.log(data[0].store);
-  console.log($scope.grabStorename);
+            /*   --------GRABS LINE NAME & CHECKS ADMIN-----------     */
+      	$scope.checkLineAdminFcn = function(names){
+          $rootScope.grabLineNumber = names;
+          console.log (" LINE NUMBER: " + $scope.grabLineNumber);
 
-  if($scope.grabStorename == data[0].store ) {
-    $scope.$apply(function () {
-    $scope.countries = data;
-          });
-       } else if (data == []) {
-         console.log('the data was deleted!');
-         $scope.countries = data;
-       }
-});
+          localStorage.setItem("LineNumber", $scope.grabLineNumber);
+           console.log(localStorage.getItem("LineNumber"));
 
-socket.on('deleteUpdate', function (data) {
-  $scope.$apply(function () {
-    console.log(data);
-    $scope.countries = data;
-     });
-});
-*/
+            socket.emit('checkLineAdmin',  {store : $scope.grabStorename, line: $scope.grabLineNumber,
+                Adminpassword: $scope.usertoken },function (data) {
+            console.log(data);
+           });
+      		};
 
-        /*   --------GRABS LINE NAME & CHECKS ADMIN-----------     */
-  	$scope.checkLineAdminFcn = function(names){
-      $rootScope.grabLineNumber = names;
-      console.log (" LINE NUMBER: " + $scope.grabLineNumber);
-
-      /*    $http.post('/checkLineAdmin', {store : $scope.grabStorename, line: $scope.grabLineNumber,
-          Adminpassword: $scope.usertoken }).success(function( data)
-           {
-             console.log("Data is returned: " + data);
-         }, function(posts) {});
-      */
-        socket.emit('checkLineAdmin',  {store : $scope.grabStorename, line: $scope.grabLineNumber,
-            Adminpassword: $scope.usertoken },function (data) {
-        console.log(data);
-       });
-  		};
-
-
-          })
+       })
 
 
 .controller('PeoplelineCtrl', function($scope, $location, $http, $ionicModal, $ionicHistory, $rootScope, $state, $cordovaGeolocation, AuthService) {
 
-      /*   ALL YOU HAVE TO DO IS PUT YOUR COORDINATES INTO GET STORE COORD.
-              THEN YOU PUT THE DISTANCE EQUASTION INTO THERE AND IT WORKS WHEN PAGE
-              GOES ON
+  console.log(localStorage.getItem("LineNumber"));
 
-
-              $rootScope.numberLines= data.length; $scope.countries = data;
-
-               //THIS WILL ALLOW THE TABLE TO BE EMPTY
-               if ($scope.numberLines == 0) {
-                 $rootScope.numberLinesZero = true; console.log('data length is 0');
-               } else if($scope.numberLines > 0) {
-                 $rootScope.numberLinesZero = false;
-
-               }
-               $scope.$apply(function () {
-                      $scope.countries = data;
-                  });
-
-        */
-
-        console.log($scope.grabStorename);
-        console.log (" LINE NUMBER: " + $scope.grabLineNumber);
-
-
-          $rootScope.goback2 = function(){
-            console.log('clicked');
-          //  $state.go('storelines')
-          $ionicHistory.goBack();
-            //  $location.path('/storelines');
-          //  window.location.href = "#/storelines";
-           //window.location.replace("#/storelines");
-
-        }
-
-          // Template for Storenames Modal
-          $ionicModal.fromTemplateUrl('templates/modals/peoplemodal1.html', {
-            scope: $scope
-          }).then(function(modal) {
-            $scope.modal6 = modal;
-          });
-
-          $scope.closepeoplemodal1 = function() {
-            $scope.modal6.hide();
-          };
-
-          // Open the login modal
-          $scope.openpeoplemodal1 = function() {
-            $scope.modal6.show();
-          };
-
-
-          // Template for Storenames Modal
-          $ionicModal.fromTemplateUrl('templates/modals/peoplemodal2.html', {
-            scope: $scope
-          }).then(function(modal) {
-            $scope.modal7 = modal;
-          });
-
-          $scope.closepeoplemodal2 = function() {
-            $scope.modal7.hide();
-          };
-
-          // Open the login modal
-          $scope.openpeoplemodal2 = function() {
-            $scope.modal7.show();
-          };
-
-
-          // Template for Storenames Modal
-          $ionicModal.fromTemplateUrl('templates/modals/peoplemodal3.html', {
-            scope: $scope
-          }).then(function(modal) {
-            $scope.modal8 = modal;
-          });
-
-          $scope.closepeoplemodal3 = function() {
-            $scope.modal8.hide();
-          };
-
-          // Open the login modal
-          $scope.openpeoplemodal3 = function() {
-            $scope.modal8.show();
-          };
-
-
-console.log('skfjlskajlfdlk');
-
-          //  $scope.storeName = {sname : "white"};
-            $scope.addnameLine ={line:""};
-
-
-
-          /* ----------ADDPEOPLE FUNCTION 2 -------------- */
-
-         $scope.addpersonAfter = function(){
-           console.log($scope.addnameLine.line);
-
-            socket.emit('addPerson244', {store : $scope.grabStorename, line: $scope.grabLineNumber,
-                   email: 'jlatouf33@gmail.com', fullname: $scope.fullName,  longitude: $scope.longitude,
-                   latitude: $scope.latitude, distance: $scope.finalCalc, number: $scope.addnameLine.line,
-                   Adminpassword: $scope.usertoken },function (data) {
-
-                     $scope.$apply(function () {
-                       console.log(data);   console.log(data.email);
-                        $scope.people.push(data);
-                      }``);
-
-               });
-                $scope.closepeoplemodal1();
-           }
-
-
-        /* ----------GET PEOPLE FROM PEOPLELINE DATABASE -------------- */
-        /*
-          $http.post('/getPeopleLine', {store : $scope.grabStorename, line: $scope.grabLineNumber,
-            Adminpassword: $scope.usertoken }).success(function( data)
-             {
-                 console.log("Data is returned: " + data);
-               $scope.people = data;
-
-             }, function(posts) {});
-       */
-
-           socket.emit('getPeopleLine', {store : $scope.grabStorename, line: $scope.grabLineNumber,
-             Adminpassword: $scope.usertoken },function (data) {
-               $scope.$apply(function () {
-                 console.log(data);    $scope.people = data;
-                 });
-
-          });
-
-
-
-
-           /* ----------GET LINE COORD / FINALCALC IN SHOWPOSITION2-------------- */
-          /*
-           $http.post('/getLineCoordinates', {store : $scope.grabStorename}).success(function( data)
-              {
-
-                  console.log(data);  $scope.places = data;
-              //  console.log("Data is returned: " + data[0].latitude + data[0].longitude);
-                 $rootScope.storelatitude = data[0].latitude;
-                 $rootScope.storelongitude = data[0].longitude;
-                 //ONLY GETS LINE COORDINATES IF DATA IS REQUIRED:
-
-                if (navigator.geolocation) {
-                   navigator.geolocation.getCurrentPosition(showPosition2);
-                } else {
-                  $scope.location = "Geolocation is not supported by this browser.";
-                }
-              }, function(posts) {});
+          /*      NOTE:   SOLUTION TO THIS PAGE PROBLEM: MAKE THE PERSON GO BACK  STORENAME SCREEN
+          WITH ALERT TELLING THEM THEY NEED TO SIGN IN TO ADD THEMSELVES TO LINE
           */
 
+          $rootScope.goback2 = function(){ console.log('clicked'); $ionicHistory.goBack(); }
+
+          // Template for Storenames Modal
+          $ionicModal.fromTemplateUrl('templates/modals/peoplemodal1.html', {   scope: $scope
+          }).then(function(modal) { $scope.modal6 = modal; });
+          $scope.closepeoplemodal1 = function() { $scope.modal6.hide();  };
+          $scope.openpeoplemodal1 = function() { $scope.modal6.show();  };
+
+          // Template for Storenames Modal
+          $ionicModal.fromTemplateUrl('templates/modals/peoplemodal2.html', { scope: $scope
+          }).then(function(modal) {   $scope.modal7 = modal; });
+          $scope.closepeoplemodal2 = function() { $scope.modal7.hide(); };
+          $scope.openpeoplemodal2 = function() { $scope.modal7.show(); };
+
+
+          // Template for Storenames Modal
+          $ionicModal.fromTemplateUrl('templates/modals/peoplemodal3.html', { scope: $scope
+          }).then(function(modal) { $scope.modal8 = modal; });
+          $scope.closepeoplemodal3 = function() { $scope.modal8.hide(); };
+          $scope.openpeoplemodal3 = function() { $scope.modal8.show(); };
+
+
+
+           /* ----------GET PEOPLE FCN -------------- */
+
+           console.log(localStorage.getItem("StoreName"));
+           console.log(localStorage.getItem("StoreLatitude"));
+           console.log(localStorage.getItem("StoreLongitude"));
+           console.log(localStorage.getItem("LineNumber"));
+
+            $rootScope.grabStorename = localStorage.getItem("StoreName");
+            $rootScope.grabLineNumber = localStorage.getItem("LineNumber");
+
+           socket.emit('getPeopleLine', {store : localStorage.getItem("StoreName"), line: localStorage.getItem("LineNumber"),
+             Adminpassword: $scope.usertoken },function (data) {
+               $scope.$apply(function () { console.log(data);    $scope.people = data; });
+
+          });
+
+              /*
+           socket.emit('getPeopleLine', {store : $scope.grabStorename, line: $scope.grabLineNumber,
+             Adminpassword: $scope.usertoken },function (data) {
+               $scope.$apply(function () { console.log(data);    $scope.people = data; });
+
+          });
+                */
+
+          /*      1)----------GETS COORDINATES OF LINE -------------- */
 
             socket.emit('getLineCoordinates', {store : $scope.grabStorename},function (data) {
-                console.log(data);     $scope.places = data;
 
-                $rootScope.storelatitude = data[0].latitude;
-                $rootScope.storelongitude = data[0].longitude;
+                console.log(data); // $scope.places = data;
+
+                if (data != '') {
+                  console.log(localStorage.getItem("StoreLatitude"));
+                  console.log(localStorage.getItem("StoreLongitude"));
+                  $rootScope.storelatitude = localStorage.getItem("StoreLatitude");
+                   $rootScope.storelongitude = localStorage.getItem("StoreLongitude");
+
+              //  $rootScope.storelatitude = data[0].latitude;
+              //  $rootScope.storelongitude = data[0].longitude;
                 console.log('storelatitude: '+ $scope.storelatitude);
                 console.log('storelongitude: '+ $scope.storelongitude);
+              }
 
-                //ONLY GETS LINE COORDINATES IF DATA IS REQUIRED:
-                  /*
-               if (navigator.geolocation) {
-                  navigator.geolocation.getCurrentPosition(showPosition2);
-               } else {
-                 $scope.location = "Geolocation is not supported by this browser.";
-               }
-               */
+              });
 
-             });
-
-
+              /*  4 ----------CALCULATES DISTANCE BETWEEN COORDINATES -------------- */
 
             $scope.findDistance = function(){
               if ($scope.latitude33 != undefined) {
            var newPoint33 = distance($scope.storelatitude, $scope.storelongitude,
-             $scope.latitude33, $scope.longitude33, 'K');
-           console.log(newPoint33);    $scope.showfinalCalc = true;
-           $scope.finalCalc = newPoint33;
-         }
-       };
+             $scope.latitude33, $scope.longitude33, 'K'); console.log(newPoint33);
+             $scope.showfinalCalc = true; $scope.finalCalc = newPoint33;
+           }
+         };
 
+         /*   3)    ----------COORDS FCN -------------- */
 
            $scope.findGPS = function(){
-
-             setTimeout(function() {
+              setTimeout(function() {
                // Do something every 3 seconds
                var posOptions = {timeout: 10000, enableHighAccuracy: false};
                   $cordovaGeolocation.getCurrentPosition(posOptions)
 
                   .then(function (position) {
-                     var lat33  = position.coords.latitude
-                     var long33 = position.coords.longitude
+                     var lat33  = position.coords.latitude;  var long33 = position.coords.longitude;
 
           //   $scope.$applyAsync(function () {
-               $rootScope.latitude33 = lat33;
-               $rootScope.longitude33 = long33;
+               $rootScope.latitude33 = lat33;        $rootScope.longitude33 = long33;
+              console.log(lat33 + '   ' + long33);    $scope.findDistance();
 
-          //     });
-
-
-                   console.log(lat33 + '   ' + long33)
-                    $scope.findDistance();
-
-                }, function(err) {
-                   console.log(err)
-                });
-
+                }, function(err) {  console.log(err)  });
                }, 3000);
              };
 
 
+             // 2)   STARTS DISTANCE CALC:
              $scope.findGPS();
-
-
-
-
-
-
-        /* ----------GETS STORE COORDINATES: -------------- */
-          /*
-        $scope.getStoreCords = function() {
-          $http.post('/getLineCoordinates', {store : $scope.grabStorename}).success(function( data)
-             {
-                 console.log(data);
-               $scope.places = data;
-               console.log("Data is returned: " + data[0].latitude + data[0].longitude);
-                $rootScope.storelatitude = data[0].latitude;
-                $rootScope.storelongitude = data[0].longitude;
-
-             }, function(posts) {});
-        };
-        */
 
         $scope.getStoreCords = function() {
           socket.emit('getLineCoordinates', {store : $scope.grabStorename},function (data) {
-            $scope.$apply(function () {
-              console.log(data);    $scope.places = data;
-               });
-
+            $scope.$apply(function () { console.log(data);    $scope.places = data;  });
          });
        };
 
 
+       $scope.addnameLine ={line:""};
 
+      /* ----------ADDPEOPLE FUNCTION 2 -------------- */
 
+    $scope.addpersonAfter = function(){    console.log($scope.addnameLine.line);
+       socket.emit('addPerson244', {store : $scope.grabStorename, line: $scope.grabLineNumber,
+              email: 'jlatouf33@gmail.com', fullname: $scope.fullName,  longitude: $scope.longitude,
+              latitude: $scope.latitude, distance: $scope.finalCalc, number: $scope.addnameLine.line,
+              Adminpassword: $scope.usertoken },function (data) {
 
-
-        /* ----------EXAMPLE DISTANCE CALC: -------------- */
-        $scope.distanceCalc = function() {
-          var a = 25 - 10
-          var b = 5 - 100
-          var c = Math.sqrt( a*a + b*b );
-          console.log('This is distance calc: '+c);
-
-          var distance2 = distance(25, 10, 5, 100, 'K');
-          console.log("dis: "+ distance2);
-        };
+          $scope.$apply(function () {  console.log(data);   console.log(data.email);   $scope.people.push(data);  });
+          });
+           $scope.closepeoplemodal1();
+      }
 
 
         /* ----------DISTANCE BETWEEN 2 SETS OF COORDINATES -------------- */
@@ -1402,7 +656,6 @@ console.log('skfjlskajlfdlk');
 
 
         /* ----------DISTANCE FORMULA -------------- */
-
 
         function distance(lat1, lon1, lat2, lon2, unit) {
                 var radlat1 = Math.PI * lat1/180
@@ -1421,203 +674,85 @@ console.log('skfjlskajlfdlk');
         }
 
 
-
-
-
-            /* ----------GET PICTURE FOR EACH PERSON -------------- */
+             /* ----------GET PICTURE FOR EACH PERSON -------------- */
         setTimeout(function() {    AuthService.confirm();
-
           var bob2 = "http://graph.facebook.com/" +$scope.userid+ "/picture?type=square";
           console.log("This is the data that I am goign to pass: "+ bob2);
-          console.log($scope.userid);
-          $scope.black2 = bob2;
+          console.log($scope.userid);  $scope.black2 = bob2;
         }, 1000);
 
 
-            /* ----------LOCATION FUNCTION -------------- */
 
-          //   var x = document.getElementById("demo");
-               var y = document.getElementById("demo2");
-
-          //  x.innerHTML = "Geoloca iton data will not be recorded if Store Added";
-              y.innerHTML = "Geolocaiton data will not be recorded if Store Added";
-
-              $scope.getLocation = function() {
-                  if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(showPosition);
-                  } else {   x.innerHTML = "Geolocation is not supported by this browser."; }
-              }
-
-              function showPosition(position) {
-                  x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude  ;
-                  console.log(position.coords.latitude);   console.log(position.coords.longitude);
-              }
+           if ($scope.showfinalCalc == true) {   $scope.finalCalc =$rootScope.finalCalc ; }
 
 
-              /* ----------LOCATION FUNCTION 2 -------------- */
+          /* ----------ADDPEOPLE FUNCTION 2 -------------- */
 
-              $scope.positionInfo = "Please check location data!"
+         $scope.addPeopletoDB = function(){ console.log("finalCalc: "+ $scope.finalCalc);
+            socket.emit('peoplelineInfo', {store : $scope.grabStorename, line: $scope.grabLineNumber,
+                   email: $scope.useremail, fullname: $scope.fullName,  longitude: $scope.longitude,
+                   latitude: $scope.latitude, distance: $scope.finalCalc,
+                   Adminpassword: $scope.usertoken },function (data) {
 
-              $scope.location = function(){
-                if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(showPosition2);
-                } else {  $scope.location = "Geolocation is not supported by this browser.";
-                }
-              };
-
-              function showPosition2(position) {
-                if (position != 0) {
-                $rootScope.latitude = position.coords.latitude; $rootScope.longitude = position.coords.longitude; }
-              //  x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude ;
-                y.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude ;
-                $rootScope.latitude22 =  position.coords.latitude
-                $rootScope.longitude22 = position.coords.longitude
-
-                var newPoint33 = distance($scope.storelatitude, $scope.storelongitude,
-                  $rootScope.latitude22, $rootScope.longitude22, 'K');
-                console.log(newPoint33);
-
-                $scope.showfinalCalc = true;
-
-
-                  $scope.$apply(function () {
-                    $scope.finalCalc = newPoint33;
-                     });
-
-              }
-
-
-            //  setTimeout(function() {   $scope.finalCalc =$rootScope.finalCalc ;  }, 7000);
-
-              if ($scope.showfinalCalc == true) {
-                $scope.finalCalc =$rootScope.finalCalc ;
-              }
-          //    setTimeout(function(){ $rootScope.finalCalc = newPoint33; }, 3000);
-
-
-              /* ----------ADDPEOPLE FUNCTION 2 -------------- */
-
-             $scope.addPeopletoDB = function(){
-                 /*    $http.post('/peoplelineInfo', {store : $scope.grabStorename, line: $scope.grabLineNumber,
-                 email: $scope.useremail, fullname: $scope.fullName,  longitude: $scope.longitude,
-                 latitude: $scope.latitude, distance: $scope.finalCalc,
-                 Adminpassword: $scope.usertoken }).success(function( data)
-                  {
-                      console.log("Data is returned: " + data);
-                      console.log("Data is returned name:: " + data.email);
-                  $scope.people.push(data)
-                  }, function(posts) {});
-                  */
-                  console.log("finalCalc: "+ $scope.finalCalc);
-                socket.emit('peoplelineInfo', {store : $scope.grabStorename, line: $scope.grabLineNumber,
-                       email: $scope.useremail, fullname: $scope.fullName,  longitude: $scope.longitude,
-                       latitude: $scope.latitude, distance: $scope.finalCalc,
-                       Adminpassword: $scope.usertoken },function (data) {
-
-                         $scope.$apply(function () {
-                           console.log(data);   console.log(data.email);
-                            $scope.people.push(data);
-                          }``);
-
-                   });
-                    $scope.closepeoplemodal2();
-               }
-
-
-
-             socket.on('updatePeople', function (data) {
-                   console.log($scope.grabStorename);
-                   console.log(data.store);
-
-                 if ($scope.grabStorename == data.store && $scope.grabLineNumber == data.line) {
-                   $scope.$apply(function () {
-                     console.log(data);
-                      $scope.people.push(data);
+                     $scope.$apply(function () {
+                       console.log(data);   console.log(data.email);
+                        $scope.people.push(data);
                       });
-                 }
-
-             });
-
-
-             /* ----------DELETE MODE -------------- */
-
-            $scope.deleteMode = function(){  $rootScope.deleteButton = true; $scope.closepeoplemodal1();  }
-
-             $scope.exitDeleteMode = function(){ $rootScope.deleteButton = false; }
+               });
+                $scope.closepeoplemodal1();
+           }
 
 
-              /* ----------OPTIONS MODAL -------------- */
-
-             $scope.optionsModa22 = function(){ $("#optionsModa22").modal("show"); }
-
-               /* ----------ADDYOURSELF MODAL -------------- */
-
-               $scope.AddYourselfModal= function(){ $("#AddYourselfModal").modal("show"); }
-
-
-               /* ----------POSITION BUTTON! -------------- */
-
-               $scope.positionButton = function(){ $rootScope.numberLinesZero = false; }
+         socket.on('updatePeople', function (data) {
+               console.log($scope.grabStorename);  console.log(data.store);
+             if ($scope.grabStorename == data.store && $scope.grabLineNumber == data.line) {
+               $scope.$apply(function () { console.log(data); $scope.people.push(data); });
+             }
+         });
 
 
-               /* ----------DISPLACEMENT BUTTON! -------------- */
+         /* ----------DELETE MODE -------------- */
 
-               $scope.displacementButton = function(){ $rootScope.numberLinesZero = true; }
+        $scope.deleteMode = function(){  $rootScope.deleteButton = true; $scope.closepeoplemodal1();  }
+
+         $scope.exitDeleteMode = function(){ $rootScope.deleteButton = false; }
+
+          /* ----------OPTIONS MODAL -------------- */
+         $scope.optionsModa22 = function(){ $("#optionsModa22").modal("show"); }
+
+           /* ----------ADDYOURSELF MODAL -------------- */
+           $scope.AddYourselfModal= function(){ $("#AddYourselfModal").modal("show"); }
+
+           /* ----------POSITION BUTTON! -------------- */
+           $scope.positionButton = function(){ $rootScope.numberLinesZero = false; }
+
+           /* ----------DISPLACEMENT BUTTON! -------------- */
+           $scope.displacementButton = function(){ $rootScope.numberLinesZero = true; }
+
+          /* ----------DELETE PEOPLE FUNCITON -------------- */
+          $scope.deletePeople2 = function(email) { console.log("Email: " + email);
+              socket.emit('deletePeopleLine55', {email : email, store : $scope.grabStorename, line: $scope.grabLineNumber },function (data) {
+               $scope.$apply(function () { console.log(data);   $scope.people = data; });
+            });
+          };
 
 
-              /* ----------DELETE PEOPLE FUNCITON -------------- */
-
-              $scope.deletePeople2 = function(email) {
-                console.log("Email: " + email);
-            /*    $http.post('/deletePeopleLine44', {email : email, store : $scope.grabStorename, line: $scope.grabLineNumber }).success(function( data)
-               {  console.log(data);
-                $scope.countries = data;
-            //    $scope.people.push(data)
-                 }, function(posts) {});
-                 */
-                 socket.emit('deletePeopleLine55', {email : email, store : $scope.grabStorename, line: $scope.grabLineNumber },function (data) {
-                   $scope.$apply(function () {
-                     console.log(data);      $scope.people = data;
-                      });
-                });
-              };
+          socket.on('deletePeople55', function (data) {
+              console.log(data);  console.log($scope.grabStorename);
+              if (data == '') {
+                console.log('the data was deleted!');   $scope.$apply(function () { $scope.people = data; });
+              } else if ($scope.grabStorename == data[0].store && $scope.grabLineNumber == data[0].line) {
+                $scope.$apply(function () { $scope.people = data;  });
+              }
+          });
 
 
-              socket.on('deletePeople55', function (data) {
-                  console.log(data);
-                  console.log($scope.grabStorename);
-                  if (data == '') {
-                    console.log('the data was deleted!');
-                    $scope.$apply(function () {
-                     $scope.people = data;
-                          });
-                  } else if ($scope.grabStorename == data[0].store && $scope.grabLineNumber == data[0].line) {
-                    $scope.$apply(function () {
-                    $scope.people = data;
-                          });
-                  }
+        //Grabs Storename to pass to next page
+        $scope.checkPeopleFcn = function(names){
+               socket.emit('checkPeopleAdmin', {store : $scope.grabStorename,
+             line: $scope.grabLineNumber, Adminpassword: $scope.usertoken },function (data) {
+               $scope.$apply(function () { console.log(data);  $scope.countries = data;  });
               });
-
-
-            //Grabs Storename to pass to next page
-            $scope.checkPeopleFcn = function(names){
-                /*    $rootScope.grabPersonName = names;
-                    console.log ("Name of Store variable: " + $scope.grabLineNumber);
-                    console.log ("Name of Person in line: " + $scope.grabPersonName);
-                      $http.post('/checkPeopleAdmin', {store : $scope.grabStorename,
-                    line: $scope.grabLineNumber, Adminpassword: $scope.usertoken })
-                    .success(function( data)
-                     {
-                       console.log("Data is returned: " + data);
-                   }, function(posts) {});
-                   */
-                   socket.emit('checkPeopleAdmin', {store : $scope.grabStorename,
-                 line: $scope.grabLineNumber, Adminpassword: $scope.usertoken },function (data) {
-
-                   $scope.$apply(function () {
-                     console.log(data);      $scope.countries = data;
-                      });
-
-                  });
-
-            };
+        };
 
     });
