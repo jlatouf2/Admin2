@@ -985,10 +985,10 @@ setInterval(function() {
            $scope.AddYourselfModal= function(){ $("#AddYourselfModal").modal("show"); }
 
            /* ----------POSITION BUTTON! -------------- */
-           $scope.positionButton = function(){ $rootScope.numberLinesZero = false; }
+           $scope.positionButton = function(){ $rootScope.numberLinesZero2 = false; }
 
            /* ----------DISPLACEMENT BUTTON! -------------- */
-           $scope.displacementButton = function(){ $rootScope.numberLinesZero = true; }
+           $scope.displacementButton = function(){ $rootScope.numberLinesZero2 = true; }
 
           /* ----------DELETE PEOPLE FUNCITON -------------- */
           $scope.deletePeople2 = function(email) { console.log("Email: " + email);

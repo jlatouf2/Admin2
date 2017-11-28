@@ -86,7 +86,7 @@
   							</thead>
               -->
   							<tbody>
-    								<tr ng-hide="numberLinesZero" style="text-align: ;" ng-class="{'selected':$index == 0}"  ng-repeat="person in people | filter:search | orderBy:'person.created'" >
+    								<tr ng-hide="numberLinesZero2" style="text-align: ;" ng-class="{'selected':$index == 0}"  ng-repeat="person in people | filter:search | orderBy:'person.created'" >
     									<td > <a style="background-color:white; border:none; "  href="" ng-click="findDistance22($index)" class="list-group-item active ">
                         <div >
                           <img ng-show= "imageSaved" class="img-circle" style="display:block; float: left;  border-style: dotted; " src="{{black2}}" >
@@ -104,7 +104,7 @@
                       </td>
     								</tr>
 
-                    <tr ng-show="numberLinesZero" style="text-align: left;"   ng-repeat="person in people | filter:search | orderBy:'person.distance'" >
+                    <tr ng-show="numberLinesZero2" style="text-align: left;"   ng-repeat="person in people | filter:search | orderBy:'person.distance'" >
     									<td> <a style="background-color:white; border:none; text-align: left" href="/#/profile2" ng-click="checkPeopleFcn(person.local.email)" class="list-group-item active ">
                           <div>
                             <img ng-show= "imageSaved" class="img-circle" style="display:block; float: left;  border-style: dotted; " src="{{black2}}" >
