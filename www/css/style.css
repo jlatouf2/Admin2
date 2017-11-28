@@ -10,6 +10,12 @@
   position: absolute;
 }
 
+.selected {
+    background-color:gold;
+    color:white;
+    font-weight:bold;
+}
+
 /* Center the loader */
 #loader {
   position: absolute;

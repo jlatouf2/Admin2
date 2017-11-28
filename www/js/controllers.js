@@ -123,6 +123,28 @@ angular.module('starter.controllers', [])
        /*  $scope.ServiceFunction5 = function () {console.log("clicked22");AuthService.LoginExample3($scope.email, $scope.password);}; */
 
 
+       $scope.foodItems = [{
+              name:'Noodles',
+              price:'10',
+              quantity:'1'
+          },
+          {
+              name:'Pasta',
+              price:'20',
+              quantity:'2'
+          },
+          {
+              name:'Pizza',
+              price:'30',
+              quantity:'1'
+          },
+          {
+              name:'Chicken tikka',
+              price:'100',
+              quantity:'1'
+          }];
+
+
       })
 
 
@@ -181,12 +203,20 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('storeNamesCtrl', function($scope, $location, $http, $timeout, $cordovaGeolocation, $rootScope, $state, $ionicModal, AuthService) {
+.controller('storeNamesCtrl', function($scope, $location, $http, $timeout, $cordovaGeolocation, $rootScope, $state, $ionicModal, $ionicHistory, AuthService) {
 
+  /*
+  ALL THAT HAS TO BE DONE IS TO:
+  1) USE THE DISTANCE FORMULA FOR THIS ONE JUST LIKE IN peopleLine
+  2) THE SMALLEST NUMBER IS THE CLOSEST TO YOU, AND THEN YOU JUST ARRANGE THEM
+      LIKE PEOPLELINE AS WELL
+
+  */
 
           $rootScope.goback2 = function(){
-            console.log('clicked');
-            $state.go('home')
+            console.log('clicked1');
+            $ionicHistory.goBack();
+            //$state.go('home')
             //  $location.path('/home');
           //  window.location.href = "#/home";
           //  window.location.replace("#/home");
@@ -309,8 +339,8 @@ angular.module('starter.controllers', [])
                   if ( $scope.storeName.sname == '') {
                     console.log('Please enter a name');
                       } else{
-                      socket.emit('addStore',  {store : $scope.storeName.sname, postal: $scope.postal, latitude: $scope.latitude,
-                        longitude: $scope.longitude, Adminpassword: $scope.usertoken },function (data) {
+                      socket.emit('addStore',  {store : $scope.storeName.sname, postal: $scope.postal, latitude: localStorage.getItem("StoreLatitude"),
+                        longitude: localStorage.getItem("StoreLongitude"), Adminpassword: $scope.usertoken },function (data) {
                           console.log(data.store);
 
                           $scope.$apply(function () {
@@ -375,14 +405,17 @@ angular.module('starter.controllers', [])
     })
 
 
-.controller('StorelinesCtrl', function($scope, $location, $ionicModal, $cordovaGeolocation, $http, $rootScope, $state, AuthService) {
+.controller('StorelinesCtrl', function($scope, $location, $ionicModal, $cordovaGeolocation, $http, $rootScope, $state, $ionicHistory, AuthService) {
 
   console.log(localStorage.getItem("StoreName"));
   console.log(localStorage.getItem("StoreLatitude"));
   console.log(localStorage.getItem("StoreLongitude"));
 
+$scope.grabStorename = localStorage.getItem("StoreName");
+/*    NOTE:     IF ANYTHING GOES WRONG: CHANGE ALL localStorage.getItem("StoreName") to $scope.grabStorename
+and all localStorage.getItem("LineNumber") to $scope.grabLinenumber  $state.go('storeNames')  */
 
-       $rootScope.goback2 = function(){ console.log('clicked'); $state.go('storeNames') };
+       $rootScope.goback2 = function(){ console.log('clicked2');  $ionicHistory.goBack(); };
 
       // Template for Storenames Modal
       $ionicModal.fromTemplateUrl('templates/modals/linemodal1.html', { scope: $scope
@@ -411,7 +444,7 @@ angular.module('starter.controllers', [])
 
      }
 
-    socket.emit('numberofLines',  {store:  $scope.grabStorename  },function (data) {
+    socket.emit('numberofLines',  {store:  localStorage.getItem("StoreName")  },function (data) {
       console.log(data); console.log(data.length);
         $rootScope.numberLines= data.length;   $scope.countries = data;
         $scope.$apply(function () {
@@ -444,12 +477,12 @@ angular.module('starter.controllers', [])
      $scope.addLine1 = function(){
        $rootScope.numberLinesZero = false;
           console.log("Number chosen: " + $scope.addNumberDB);   console.log("Token: " + $scope.usertoken);
-
-           if ( $scope.grabStorename == undefined) {
+            //           if ( $scope.grabStorename == undefined) {
+           if ( localStorage.getItem("StoreName") == undefined || null) {
              console.log('Please get store name!');
                } else{
 
-              socket.emit('addLine1',  {store : $scope.grabStorename, line: $scope.addNumberDB, Adminpassword: $scope.usertoken },function (data) {
+              socket.emit('addLine1',  {store : localStorage.getItem("StoreName"), line: $scope.addNumberDB, Adminpassword: $scope.usertoken },function (data) {
                 console.log(data);
                 //    THIS ADD SUCCESS BAR:
                 $rootScope.successful = true; $scope.countries.push(data)
@@ -458,9 +491,10 @@ angular.module('starter.controllers', [])
              }
        }
 
+       /*   NOTE THIS MAY CAUSE SOME PROBLEMS IF SAVED NAME DOES NOT EQUAL DATA.STORE   */
 
        socket.on('addLineStuff', function (data) {
-         if($scope.grabStorename == data.store) {
+         if(localStorage.getItem("StoreName") == data.store) {
               console.log(data); $rootScope.successful = true;  $scope.countries.push(data)
                setTimeout(function(){ stopSuccessBar(); }, 3000);
               }
@@ -476,7 +510,7 @@ angular.module('starter.controllers', [])
        /*   --------DELETE MODE-----------     */
         $scope.deleteLine = function(name) {
           console.log("line is: "+name);   console.log("store name: "+ $scope.grabStorename);
-             socket.emit('deleteselectedLine',  {line : name, store: $scope.grabStorename},function (data) {
+             socket.emit('deleteselectedLine',  {line : name, store: localStorage.getItem("StoreName")},function (data) {
             console.log(data);
                 $scope.$apply(function () {  $scope.countries = data;  });
             });
@@ -491,7 +525,7 @@ angular.module('starter.controllers', [])
               $scope.$apply(function () {
               $scope.countries = data;
                     });
-            } else if ($scope.grabStorename == data[0].store ) {
+            } else if (localStorage.getItem("StoreName") == data[0].store ) {
               $scope.$apply(function () { $scope.countries = data;    });
             }
         });
@@ -518,11 +552,62 @@ angular.module('starter.controllers', [])
 
   console.log(localStorage.getItem("LineNumber"));
 
+  $scope.myObj = {
+    "color" : "white",
+    "background-color" : "coral"
+  }
+
+
+
+
           /*      NOTE:   SOLUTION TO THIS PAGE PROBLEM: MAKE THE PERSON GO BACK  STORENAME SCREEN
           WITH ALERT TELLING THEM THEY NEED TO SIGN IN TO ADD THEMSELVES TO LINE
+          $ionicHistory.goBack();
+          //  $location.path('/home');
+        //  window.location.href = "#/home";
+
+
+        $http.get("wrongfilename.htm")
+   .then(function(response) {
+       //First function handles success
+       $scope.content = response.data;
+   }, function(response) {
+       //Second function handles error
+       $scope.content = "Something went wrong";
+   });
+   keytool -genkey -v -keystore myproject3.keystore -alias myproject3 -keyalg RSA -keysize 2048 -validity 10000
+   jarsigner -keystore myproject3.keystore apkname.apk myproject3
           */
 
-          $rootScope.goback2 = function(){ console.log('clicked'); $ionicHistory.goBack(); }
+          $scope.nodeValidation = function(){
+            $http.post('http://192.168.1.115:3000/stuffwhite', {"email": "jlatouf2@gmail.com"})
+         .then(function(data) {
+             //First function handles success
+             console.log('worked');
+              console.log(data);
+              console.log(data.data);
+              console.log(data.data[0]);
+              console.log(data.data[1]);
+              $scope.validationData = data.data;
+
+             //$scope.content = response.data;
+         }, function(data) {
+             //Second function handles error
+             console.log('didnt work');
+             console.log(data);
+             console.log(data.data);
+             console.log(data.data[0]);
+             console.log(data.data[1]);
+             $scope.validationData = data.data;
+
+
+         });
+
+           };
+
+
+
+          $rootScope.goback2 = function(){ console.log('clicked3'); $ionicHistory.goBack(); }
 
           // Template for Storenames Modal
           $ionicModal.fromTemplateUrl('templates/modals/peoplemodal1.html', {   scope: $scope
@@ -615,7 +700,7 @@ angular.module('starter.controllers', [])
               console.log(lat33 + '   ' + long33);    $scope.findDistance();
 
                 }, function(err) {  console.log(err)  });
-               }, 3000);
+              }, 1000);
              };
 
 
@@ -688,8 +773,9 @@ angular.module('starter.controllers', [])
 
           /* ----------ADDPEOPLE FUNCTION 2 -------------- */
 
-         $scope.addPeopletoDB = function(){ console.log("finalCalc: "+ $scope.finalCalc);
-            socket.emit('peoplelineInfo', {store : $scope.grabStorename, line: $scope.grabLineNumber,
+         $scope.addPeopletoDB = function(){
+            console.log("finalCalc: "+ $scope.finalCalc);
+            socket.emit('addperson11', {store : $scope.grabStorename, line: $scope.grabLineNumber,
                    email: $scope.useremail, fullname: $scope.fullName,  longitude: $scope.longitude,
                    latitude: $scope.latitude, distance: $scope.finalCalc,
                    Adminpassword: $scope.usertoken },function (data) {
@@ -709,6 +795,181 @@ angular.module('starter.controllers', [])
                $scope.$apply(function () { console.log(data); $scope.people.push(data); });
              }
          });
+
+
+         /* ----------ADDPEOPLE FUNCTION 2 -------------- */
+         /*   ADD ANOTHER SECTION OF THE APP, THE OPTIMIZE SECTION,  IT WATCHES EACH PERSONS GPS Position
+         IN REAL TIME,
+
+         1) POSTION: TIME : WHEN YOU ADD YOURSELF TO THE LINEUP
+         2) COORDINATES :  CALCS THE DISTANCE BETWEEN THE LINE CREATOR AND THE PERSON
+
+         3) OPTIMIZE: - time when you add yourself (position).
+                      - calc distance when add yourself (coordinates)
+                      -
+                      1) could just track coordinates then closest people will be top of list.
+                        -but this would occlued the (position) people.
+                      2) could track coordinates + LIMIT ONLY THE TOP 10, 20 PEOPLE WHO ADDED THEMSELFVES
+                      BASED ON (position)
+
+
+                      // Options: throw an error if no update is received every 30 seconds.
+//
+
+
+$scope.optimizeStart = function(){
+     setInterval(function(){
+     $cordovaGeolocation.getCurrentPosition()
+
+     .then(function (position) {
+        var lat55  = position.coords.latitude;  var long55 = position.coords.longitude;
+
+        $scope.latitude33 = lat55;        $scope.longitude33 = long55;
+
+     $rootScope.latitude55 = lat55;        $rootScope.longitude55 = long55;
+     console.log(lat55 + '   ' + long55);    $scope.findDistance();
+
+
+     }, function(err) {  console.log(err)  });
+   }, 5000);
+
+  }
+
+
+var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 7000 });
+
+var watch;
+var watchOptions = {
+  timeout : 5000,
+  maximumAge: 3000,
+  enableHighAccuracy: true // may cause errors if true
+};
+
+
+var watchCurrentLocation = function() {
+  watch = $cordovaGeolocation.watchPosition(watchOptions);
+  watch.then(
+    null,
+    function(err) {
+      // error
+      console.log("watch error", err);
+    },
+    function(position) {
+      var lat  = position.coords.latitude
+      var long = position.coords.longitude
+
+      console.log('lat long', lat, long);
+      $scope.lastLocation.lat = $scope.currentLocation.lat;
+      $scope.lastLocation.long = $scope.currentLocation.long;
+
+      $scope.currentLocation.lat = lat;
+      $scope.currentLocation.long = long;
+  });
+};
+
+
+
+setInterval(function() {
+    // Do something every 3 seconds
+    var posOptions = {timeout: 10000, enableHighAccuracy: false};
+       $cordovaGeolocation.getCurrentPosition(posOptions)
+
+       .then(function (position) {
+          var lat  = position.coords.latitude
+          var long = position.coords.longitude
+          console.log(lat + '   ' + long)
+       }, function(err) {
+          console.log(err)
+       });
+
+}, 3000);
+
+    IF YOU ADD OPTIMIZE:
+          1)TAKE DATE EVERY 30 SECONDS
+          2) HAVE FUNCTION ADD DATA TO BACKEND
+          3) INBACKEND:
+              -FCN CHECKS IF USER EXISTS;
+              -THEN IF YES THEN ADD NEW POSITION COORDINATES
+              -
+         */
+
+
+         $scope.removeName = function(name) {
+           var i = $scope.names.indexOf(name);
+           $scope.names.splice(i, 1);
+         };
+
+
+         //optimaze fcn
+         $scope.optimizeStart2 = function(){
+             for (i = 0; i < $scope.people.length; i++) {
+                  if ($scope.people[i].email == 'jlatouf3@mgmail.com') {
+                    $scope.people[i].distance = '0.888';
+
+                  }
+             }
+         };
+
+         /*
+          THIS WORKS!!!:
+          console.log($scope.people);
+             delete $scope.people[i].distance;
+             //delete $scope.people[i].distance;
+             $scope.people[i].distance = "0.888";
+         */
+
+                //THIS WORKS:
+         $scope.optimizeStart = function(){
+              setInterval(function(){
+              $cordovaGeolocation.getCurrentPosition()
+              .then(function (position) {
+                 var lat55  = position.coords.latitude;  var long55 = position.coords.longitude;
+                 $scope.latitude33 = lat55;        $scope.longitude33 = long55;
+              $rootScope.latitude55 = lat55;        $rootScope.longitude55 = long55;
+              console.log(lat55 + '   ' + long55);    $scope.findDistance();
+
+              //ADDS DATA TO BACKEND:
+              socket.emit('optimizeData', {store : $scope.grabStorename, line: $scope.grabLineNumber,
+                     email: 'jlatouf2@gmail.com', distance: $scope.finalCalc },function (data) {
+                       console.log(data);
+
+                       for (i = 0; i < $scope.people.length; i++) {
+                            if ($scope.people[i].email == 'jlatouf2@gmail.com') {
+                              $scope.people[i].distance =  $scope.finalCalc;
+
+                            }
+                       }
+
+                       $scope.$apply(function () {
+                         //console.log(data.email); $scope.people.push(data);
+                        });
+
+                 });
+              }, function(err) {  console.log(err)  });
+            }, 5000);
+           }
+
+
+           socket.on('optimizeReturned', function (data) {
+                 console.log(data);
+
+               if ($scope.grabStorename == data[0].store && $scope.grabLineNumber == data[0].line) {
+                 console.log(data);
+
+                 for (i = 0; i < $scope.people.length; i++) {
+                      if ($scope.people[i].email == data[0].email) {
+                          //$scope.people[i] = data;
+                          $scope.people[i].distance = data[0].distance;
+                      }
+                 }
+
+
+               }
+           });
+
+
+
+
 
 
          /* ----------DELETE MODE -------------- */

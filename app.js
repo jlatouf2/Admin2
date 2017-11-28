@@ -31,6 +31,11 @@ var UserStuff = require('./www/config/userinfo.js');
 var User   = require('./www/config/user');
 var Blue = require('./www/config/userblack.js');
 
+
+var expressValidator = require('express-validator'); //Declare Express-Validator
+
+app.use(expressValidator());  //required for Express-Validator
+
 app.use(express.static(path.join(__dirname, 'www')));
 app.use(express.static(path.join(__dirname, '/')));
 app.use(session({
@@ -167,6 +172,25 @@ io.on('connection', function(socket){
            })
       });
 
+      socket.on('optimizeData', function (data, callback) {
+        PeopleLine.update({ $and: [{store: data.store}, {line: data.line}, {email: data.email}]},
+          {distance: data.distance})
+          .exec(function(err, posts) {
+              if (err) { return next(err) }
+          //  callback(posts);
+          //  console.log(posts);
+
+            PeopleLine.find({ $and: [{store: data.store}, {line: data.line}, {email: data.email}]})
+              .exec(function(err, posts) {
+                  if (err) { return next(err) }
+                io.emit('optimizeReturned', posts);
+                 console.log(posts);
+                })
+
+            })
+      });
+
+
       socket.on('addLine1', function (data, callback) {
         console.log(data);
         console.log("number sent to DB: " + data.line);
@@ -235,7 +259,7 @@ io.on('connection', function(socket){
           })
       });
 
-      socket.on('peoplelineInfo', function (data, callback) {
+      socket.on('addperson11', function (data, callback) {
         var newUser2 = PeopleLine({
           email : data.email, line: data.line,
           position: data.position,  store: data.store,
@@ -250,6 +274,17 @@ io.on('connection', function(socket){
           console.log(post);
         });
       });
+
+
+      socket.on('optimizeData', function (data, callback) {
+        PeopleLine.find({ $and: [{store: data.store}, {line: data.line}, {email: data.email}]})
+          .exec(function(err, posts) {
+              if (err) { return next(err) }
+            //callback(posts);
+            console.log(posts);
+            })
+      });
+
 
 //     Storeline.remove({ $and: [{store: data.store}, {line: data.line}]}, function(err,removed) {
 
@@ -349,6 +384,14 @@ io.on('connection', function(socket){
 });
 
 
+
+
+      //CORS REQUEST WORKED!
+      app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+      });
 
 
 
@@ -473,14 +516,6 @@ app.post('/login22999', function(req, res) {
 
 //    curl -X POST -H 'Content-Type: application/json' -d '{"email":"davidwalshr","password":"fsomethingt"}' http://localhost:3000/login3333
 
-
-
-      //CORS REQUEST WORKED!
-      app.use(function(req, res, next) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        next();
-      });
 
 
 
@@ -1022,6 +1057,55 @@ console.log(n);
 
     */
 
+    // curl -X POST -H 'Content-Type: application/json' -d '{"store":"bobby", "line":"2", "email":"jlatouf3@gmail.com"}' http://localhost:3000/optimizeData2
+
+    // curl -X POST -H 'Content-Type: application/json' -d '{"number":"2"}' http://localhost:3000/addPerson2
+
+    //curl -X POST  http://localhost:3000/optimizeData2
+
+
+/*
+db.books.update(
+   { _id: 1 },
+   {
+     $inc: { stock: 5 },
+     $set: {
+       item: "ABC123",
+       "info.publisher": "2222",
+       tags: [ "software" ],
+       "ratings.1": { by: "xyz", rating: 3 }
+     }
+   }
+)
+
+*/
+    app.post('/optimizeData2', function (req, res, next) {
+      PeopleLine.find({ $and: [{store: req.body.store}, {line: req.body.line}, {email: req.body.email}]})
+        .exec(function(err, posts) {
+            if (err) { return next(err) }
+          //callback(posts);
+          console.log(posts);
+          })
+    });
+
+    // curl -X POST -H 'Content-Type: application/json' -d '{"store":"bobby", "line":"2", "email":"jlatouf2@gmail.com"}' http://localhost:3000/optimizeData23
+
+    // curl -X POST -H 'Content-Type: application/json' -d '{"number":"2"}' http://localhost:3000/addPerson2
+
+    //curl -X POST  http://localhost:3000/optimizeData23
+
+
+        /*   THIS   */
+
+    app.post('/optimizeData23', function (req, res, next) {
+      PeopleLine.update({ $and: [{store: req.body.store}, {line: req.body.line}, {email: req.body.email}]},
+        {email:'jlatouf3@gmail.com'})
+        .exec(function(err, posts) {
+            if (err) { return next(err) }
+          //callback(posts);
+          console.log(posts);
+          })
+    });
 
 
     /*---------- CHECKPEOPLE FUNCTION: --------------*/
@@ -1040,6 +1124,40 @@ console.log(n);
           console.log("Adminpassword was equal to undefined so query did not run!");
         }
       })
+
+
+
+      app.post('/stuffwhite3', function (req, res) {
+          console.log('worked');
+          res.send('posts');
+      });
+
+            //validation:
+
+        app.post('/stuffwhite', function (req, res) {
+        req.assert('name', 'Name is required').notEmpty().withMessage('must be an name');
+         //Validate name
+        req.assert('email', 'A valid email is required').isEmail();
+        req.assert('password', 'Password must be at least 4 characters long').len(4);
+        var errors = req.validationErrors();
+        //if (errors) return res.send(errors);
+        if (errors) return res.status(400).send(errors);
+
+        });
+
+//curl -X POST -H 'Content-Type: application/json' -d '{"email":"davidwalshr","password":"fsomethingt"}' http://localhost:3000/stuffwhite
+//curl -X POST -H 'Content-Type: application/json' -d '{"email":"davidwalshr@black.com"}' http://localhost:3000/stuffwhite2
+
+        app.post('/stuffwhite2', function (req, res) {
+        //  req.assert('email', 'A valid email is required').trim();
+          req.assert('email', 'A valid email is required').isEmail();
+
+          var errors = req.validationErrors();
+          if (errors) return res.status(400).send(errors);
+
+          console.log('black');
+          console.log(req.body.email);
+          });
 
 
 

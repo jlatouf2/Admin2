@@ -16,6 +16,8 @@
 
         <p ng-show="blue" id="demo2" style="font-weight: bold;"></p>
 
+        <button ng-click="nodeValidation()">Validation</button>
+        {{validationData}}
               <!-- TITLE / INFORMATION ! -->
 
 
@@ -31,7 +33,7 @@
             <h4 style="text-align:center">Please press this button to add Yourself to Lineup:</h4>
                 <!-- ADD YOURSELF BUTTON! -->
              <div>
-              <button class="btn btn-default btn"  ng-click="openpeoplemodal2()">Add Yourself</button>
+            <!--  <button class="btn btn-default btn"  ng-click="openpeoplemodal2()">Add Yourself</button> -->
             <!--  <button class="btn btn-default btn"  ng-click="distanceCalc()">Distance</button>
               <button class="btn btn-default btn"  ng-click="getStoreCords()">Store Coordinates</button>
               <button class="btn btn-default btn"  ng-click="distanceCalc2()">FINAL CALC:</button> -->
@@ -55,12 +57,20 @@
           <!--  <div  style="padding-left:50px; padding-right:50px">
             <button class="btn btn-default btn"  ng-click="positionButton()">POSITION</button>
             <button style="float:right" class="btn btn-default btn"  ng-click="displacementButton()">DISPLACEMENT</button>
-          </div>  -->
+          </div>
 
           <ul class="nav nav-tabs"  style="text-align:center;">
             <li class="active" style=" width:50%;"><a data-toggle="tab" ng-click="positionButton()" href="">POSITION</a></li>
             <li style=" width:50%;"><a data-toggle="tab" href="" ng-click="displacementButton()">DISPLACEMENT</a></li>
           </ul>
+-->
+
+          <ul class="nav nav-tabs"  style="text-align:center;">
+            <li class="active" style=" width:33%;"><a data-toggle="tab" ng-click="positionButton()" href="">POSITION</a></li>
+            <li style=" width:33%;"><a data-toggle="tab" href="" ng-click="optimizeStart()">OPTIMIZE</a></li>
+            <li style=" width:33%;"><a data-toggle="tab" href="" ng-click="displacementButton()">DISPLACEMENT</a></li>
+          </ul>
+
 
 
 
@@ -76,14 +86,15 @@
   							</thead>
               -->
   							<tbody>
-
-    								<tr ng-hide="numberLinesZero" style="text-align: ;"  ng-repeat="person in people | filter:search | orderBy:'person.created'" >
-    									<td> <a style="background-color:white; border:none; " href="/#/profile2" ng-click="checkPeopleFcn(person.local.email)" class="list-group-item active ">
-                        <div>
+    								<tr ng-hide="numberLinesZero" style="text-align: ;" ng-class="{'selected':$index == 0}"  ng-repeat="person in people | filter:search | orderBy:'person.created'" >
+    									<td > <a style="background-color:white; border:none; "  href="" ng-click="findDistance22($index)" class="list-group-item active ">
+                        <div >
                           <img ng-show= "imageSaved" class="img-circle" style="display:block; float: left;  border-style: dotted; " src="{{black2}}" >
                           <img ng-hide="imageSaved" class="img-circle" style="display:block; weight:50px; height:50px; float: left; border-style: dotted; " src="img/images-3.jpeg" >
 
-                          <span style="color:black;  ">{{person.email}} <br> Position:{{$index+1}} </span>
+                          <span style="color:black;"  >{{person.email}} <br> Position:{{$index+1}} </span>
+                         <!--  <span style="color:black;" ng-if="$index ==  0" ng-style="myObj">{{person.email}} <br> Position:{{$index+1}} </span>   -->
+
                         </div>    <!-- Need to store userid in DB then get all from DB and put in:
                            {{"http://graph.facebook.com/" +person.iduserid+ "/picture?type=square"}} +    -->
                       </td>
@@ -93,13 +104,13 @@
                       </td>
     								</tr>
 
-                    <tr ng-show="numberLinesZero" style="text-align: left;"  ng-repeat="person in people | filter:search | orderBy:'person.distance'" >
+                    <tr ng-show="numberLinesZero" style="text-align: left;"   ng-repeat="person in people | filter:search | orderBy:'person.distance'" >
     									<td> <a style="background-color:white; border:none; text-align: left" href="/#/profile2" ng-click="checkPeopleFcn(person.local.email)" class="list-group-item active ">
                           <div>
                             <img ng-show= "imageSaved" class="img-circle" style="display:block; float: left;  border-style: dotted; " src="{{black2}}" >
                             <img ng-hide="imageSaved" class="img-circle" style="display:block; weight:50px; height:50px; float: left; border-style: dotted; " src="img/images-3.jpeg" >
 
-                            <span style="color:black;">
+                            <span style="color:black;" >
                               Person:    {{person.email}} <br>
                               Distance:  {{person.distance}}<br>
                               Position:   {{$index+1}}

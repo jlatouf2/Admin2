@@ -3,6 +3,19 @@ Ionic App Base
 
 A starting project for Ionic that optionally supports using custom SCSS.
 
+1) generates apk file:
+   ionic cordova build --release android
+2)keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+   -generates keystore file
+3)remane keystore to: HelloWorld-release-unsigned.apk
+4)  jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore HelloWorld-release-unsigned.apk alias_name
+    -signs keystore.
+5) /Users/jarredlatouf/zipalign-master/zipalign -v 4 HelloWorld-release-unsigned.apk HelloWorld.apk
+
+
+/Users/jarredlatouf/Library/Android/sdk/build-tools/22.0.1/zipalign
+
+
 ## Using this project
 
 We recommend using the [Ionic CLI](https://github.com/ionic-team/ionic-cli) to create new Ionic projects that are based on this project but use a ready-made starter template.

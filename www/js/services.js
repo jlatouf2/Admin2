@@ -59,7 +59,7 @@ angular.module('starter').factory('AuthService' ,
           console.log('email: ' + email); console.log('password: ' + password);
           console.log('passwordConf: ' + passwordConf);
 
-            $http.post('/signup22', { fname: fname, lname: lname, email : email, password : password, passwordConf: passwordConf } )
+            $http.post('http://192.168.1.115:3000/signup22', { fname: fname, lname: lname, email : email, password : password, passwordConf: passwordConf } )
             .success(function( data) {
               console.log (data);
               $location.path('/profile');
@@ -78,7 +78,7 @@ angular.module('starter').factory('AuthService' ,
     function LoginExample3(email, password){
         console.log('email: ' + email); console.log('password: ' + password);
 
-      $http.post('/login22999', {email : email, password : password} )
+      $http.post('http://192.168.1.115:3000/login22999', {email : email, password : password} )
          .success(function( data) {
            console.log (data);
            console.log (data.user);

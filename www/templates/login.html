@@ -24,6 +24,24 @@
 <button ng-click="removeLocal()">REMOVE PROJECT</button> <br>
 <button ng-click="getLocalbyKey()">GET BY KEY</button> <br>
 
+
+<table class="table table-bordered" >
+          <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Quantity</th>
+          </tr>
+          <tr ng-repeat="item in foodItems" ng-class="{'selected':$index == 0}" >
+                   ........
+              <td>{{$index}}</td>
+               <td>{{item.name}}</td>
+              <td>{{item.price}}</td>
+              <td>{{item.quantity}}</td>
+          </tr>
+      </table>
+
+
 <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
 <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
 <a href="/auth/twitter" class="btn btn-info"><span class="fa fa-twitter"></span> Twitter</a>
