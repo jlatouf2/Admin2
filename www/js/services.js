@@ -58,8 +58,8 @@ angular.module('starter').factory('AuthService' ,
           console.log('fname: ' + fname); console.log('lname: ' + lname);
           console.log('email: ' + email); console.log('password: ' + password);
           console.log('passwordConf: ' + passwordConf);
-
-            $http.post('http://192.168.1.115:3000/signup22', { fname: fname, lname: lname, email : email, password : password, passwordConf: passwordConf } )
+//http://192.168.1.115:3000/signup22
+            $http.post('https://thawing-ocean-11742.herokuapp.com/signup22', { fname: fname, lname: lname, email : email, password : password, passwordConf: passwordConf } )
             .success(function( data) {
               console.log (data);
               $location.path('/profile');
@@ -74,11 +74,15 @@ angular.module('starter').factory('AuthService' ,
               }, function(posts) {});
     }
 
+  //  var socket = io.connect('https://thawing-ocean-11742.herokuapp.com/#/:3000');
+    //http://192.168.1.115: THIS WORKS FOR MOBILE LOGIN.
+    //var socket = io.connect('http://192.168.1.115:3000');
+//https://thawing-ocean-11742.herokuapp.com/#/home
 
     function LoginExample3(email, password){
         console.log('email: ' + email); console.log('password: ' + password);
-
-      $http.post('http://192.168.1.115:3000/login22999', {email : email, password : password} )
+//'http://192.168.1.115:3000/login22999'
+      $http.post('https://thawing-ocean-11742.herokuapp.com/login22999', {email : email, password : password} )
          .success(function( data) {
            console.log (data);
            console.log (data.user);

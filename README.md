@@ -13,7 +13,33 @@ A starting project for Ionic that optionally supports using custom SCSS.
 5) /Users/jarredlatouf/zipalign-master/zipalign -v 4 HelloWorld-release-unsigned.apk HelloWorld.apk
 
 
+-       To update the app for future releases:
+
+******  REMEMBER TO CHANGE THE VERSIONCODE TO A HIGHER NUMBER, MAY NEED HIGHER THAN 3******
+1)ionic cordova build android --release -- -- --versionCode=4
+
+2)Sign your release build with the key from your keystore. In below example the keystore is in the root of your project, but of course it's also possible to define another path:
+
+ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore HelloWorld-release-unsigned.apk alias_name
+
+ 3)Zipalign your signed APK:
+
+/Users/jarredlatouf/zipalign-master/zipalign -v 4 HelloWorld-release-unsigned.apk HelloWorld.apk
+
+
+then go to:
+https://play.google.com/apps/testing/com.tested.myapp2439485068
+This is the alpha code so that someone can download the application.
+
 /Users/jarredlatouf/Library/Android/sdk/build-tools/22.0.1/zipalign
+
+
+heroku create example
+Creating ⬢ example... done
+https://example.herokuapp.com/ | https://git.heroku.com/example.git
+
+
+
 
 
 ## Using this project

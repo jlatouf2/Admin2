@@ -540,6 +540,11 @@ Valid OAuth redirect URIs
       app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/#/login' }),
         function(req, res, user) {
         user : req.user // get the user out of session and pass to template
+        //shitapp01.herokuapp.com
+        //https://shitapp01.herokuapp.com/
+
+        //thawing-ocean-11742.herokuapp.com
+        //https://thawing-ocean-11742.herokuapp.com/#/:3000
         sess=req.session;       sess.data=req.user;
         console.log("THIS IS THE USER STUFF"  + sess);
         console.log("THIS IS THE USER STUFF"  + sess.data);
@@ -547,13 +552,13 @@ Valid OAuth redirect URIs
         console.log("THIS IS THE USER email"  + sess.data.facebook.email);
         console.log("THIS IS THE USER TOKEN"  + sess.data.facebook.token);
         console.log("THIS IS THE USER PHOTOS"  + sess.data.facebook.photos);
-        res.redirect('/profile');
+        res.redirect('/#/profile');
 
 
         });
         passport.use(new FacebookStrategy({
               clientID: '506464429730479', clientSecret: 'efb8d95e6fc6a9d733769efa994d23fd',
-              callbackURL: "http://localhost:3000/auth/facebook/callback",
+              callbackURL: "https://thawing-ocean-11742.herokuapp.com/#/:8100/auth/facebook/callback",
               profileFields: ['id', 'displayName', 'link',  'photos', 'emails']
               },
               function(accessToken, refreshToken, profile, done) {
@@ -647,7 +652,7 @@ Valid OAuth redirect URIs
       console.log("THIS IS THE USER _id"  + sess.data.google.id);
       console.log("THIS IS THE USER email"  + sess.data.google.email);
       console.log("THIS IS THE USER TOKEN"  + sess.data.google.token);
-      res.redirect('/profile');
+      res.redirect('/#/profile');
 
 
       });
@@ -774,7 +779,7 @@ app.post('/jp', function (req, res) {
          console.log("THIS IS THE USER _id"  + sess.data.twitter.id);
          console.log("THIS IS THE USER email"  + sess.data.twitter.email);
          console.log("THIS IS THE USER TOKEN"  + sess.data.twitter.token);
-         res.redirect('/profile');
+         res.redirect('/#/profile');
 
 
          });
