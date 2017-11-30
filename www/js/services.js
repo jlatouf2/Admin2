@@ -108,6 +108,8 @@ angular.module('starter').factory('AuthService' ,
             $rootScope.userid = null;     $rootScope.usertoken = null;
             $rootScope.userEmail = null;  $rootScope.fullName = null;
             $rootScope.userid = null;     $rootScope.userPassword = null;
+            
+            $rootScope.imageSaved = false;
             $http.get('/logout')
               .success(function (data) {    console.log('LOGGED OUT!');    })
               .error(function (data) {      console.log('NOT LOGGED OUT!');   });
