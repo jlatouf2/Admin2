@@ -561,7 +561,7 @@ Valid OAuth redirect URIs
         //CHECK CODE/ANG APPS/MYPROJECTS/ALL LOGIN WORKS!!! for code for heroku logins!!!!
         passport.use(new FacebookStrategy({
               clientID: '506464429730479', clientSecret: 'efb8d95e6fc6a9d733769efa994d23fd',
-              callbackURL: "http://localhost:8100/auth/facebook/callback",
+              callbackURL: "https://thawing-ocean-11742.herokuapp.com/auth/facebook/callback",
               profileFields: ['id', 'displayName', 'link',  'photos', 'emails']
               },
               function(accessToken, refreshToken, profile, done) {
