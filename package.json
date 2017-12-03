@@ -39,9 +39,11 @@
     "body-parser": "^1.18.2",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
+    "cordova-android": "~6.3.0",
     "cordova-ios": "^4.5.0",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^1.1.7",
+    "cordova-plugin-facebook4": "^1.9.1",
     "cordova-plugin-geolocation": "^2.4.3",
     "cordova-plugin-inappbrowser": "^1.7.2",
     "cordova-plugin-splashscreen": "^4.1.0",
@@ -65,8 +67,7 @@
     "path": "^0.12.7",
     "session": "^0.1.0",
     "socket.io": "^2.0.4",
-    "url": "^0.11.0",
-    "cordova-android": "~6.3.0"
+    "url": "^0.11.0"
   },
   "cordova": {
     "plugins": {
@@ -78,7 +79,11 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-whitelist": {},
       "ionic-plugin-keyboard": {},
-      "cordova-plugin-inappbrowser": {}
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-facebook4": {
+        "APP_ID": "2042335766002685",
+        "APP_NAME": "Androidexample02"
+      }
     },
     "platforms": [
       "ios",

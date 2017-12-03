@@ -1,3 +1,4 @@
+'use strict';
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
@@ -38,11 +39,11 @@ angular.module('starter.controllers', [])
 
 .controller('firstController', function($scope, $location, $http, $rootScope, $ionicModal, AuthService) {
 
-          $scope.email = "jlatouf2@gmail.com"
-          $scope.password = "jarredl"
-          $scope.blue = function(){  console.log('white;');}
+          $scope.email = "jlatouf2@gmail.com";
+          $scope.password = "jarredl";
+          $scope.blue = function(){  console.log('white;');};
             /*   --------LOGIN MODAL-----------     */
-        $scope.loginModal = function(){  $("#myModal").modal("show"); }
+        $scope.loginModal = function(){  $("#myModal").modal("show"); };
 
           /*   --------LOGIN FUNCTION-----------     */
         $scope.ServiceFunction5 = function () { AuthService.LoginExample3($scope.email, $scope.password); $scope.closeLogin1(); };
@@ -50,10 +51,10 @@ angular.module('starter.controllers', [])
         $scope.ServiceFunction2 = function () { AuthService.loginExample2($scope.firstname, $scope.lastnamE); };
 
         /*   --------LOGOUT MODAL-----------     */
-        $scope.logoutFunction = function(){  AuthService.logout(); }
+        $scope.logoutFunction = function(){  AuthService.logout(); };
 
         /*   --------SOCKET EX-----------     */
-        $scope.socketData = function(){ socket.emit('clientEvent', 'Sent an event from the client!'); }
+        $scope.socketData = function(){ socket.emit('clientEvent', 'Sent an event from the client!'); };
 
         var currentLocation = window.location;
         console.log(currentLocation);
@@ -82,7 +83,7 @@ angular.module('starter.controllers', [])
 
 .controller('ContactController', function($scope, $location, $http, $state, $rootScope, AuthService) {
 
-          $rootScope.goback2 = function(){ console.log('clicked'); $state.go('home'); }
+          $rootScope.goback2 = function(){ console.log('clicked'); $state.go('home'); };
             //LOCALSTOREAGE IN ANGULARJS:
           $scope.setLocal = function () {
             localStorage.setItem("Name", "John");
@@ -123,26 +124,142 @@ angular.module('starter.controllers', [])
        /*  $scope.ServiceFunction5 = function () {console.log("clicked22");AuthService.LoginExample3($scope.email, $scope.password);}; */
 
 
-       $scope.foodItems = [{
-              name:'Noodles',
-              price:'10',
-              quantity:'1'
-          },
-          {
-              name:'Pasta',
-              price:'20',
-              quantity:'2'
-          },
-          {
-              name:'Pizza',
-              price:'30',
-              quantity:'1'
-          },
-          {
-              name:'Chicken tikka',
-              price:'100',
-              quantity:'1'
-          }];
+
+
+
+//FACEBOOK GETS USERDATA, BUT NEEDS TO BE LOGGED IN FIRST!!!
+
+  //   function myFunction4() {
+       $scope.savetoken = function(){
+       document.addEventListener("deviceready", function() {   alert("device ready");
+
+       try {
+       if (window.cordova.platformId === "browser") {
+                var appId = xxxx6138889xxxx;
+                var version = "v2.0";      //tried for v.2.0 to v.2.7
+               facebookConnectPlugin.browserInit(appId, version);
+       }
+       var fbLoginSuccess = function (userData) {
+           //alert(userData.email);
+           alert("worked" + JSON.stringify(userData));
+           alert(userData.id);
+           alert(userData.name);
+           alert(userData.email);
+
+           $scope.userID = userData.id;
+           $scope.name = userData.name;
+           $scope.email = userData.email;
+
+//THIS IS THE DATA THAT WILL SEND TO BACKEND!
+
+          //    $scope.back();    store : $scope.storeName.sname, postal: $scope.postal,
+
+          $http.post('http://192.168.1.115:3000/facebookSignupLogin', {userID: $scope.userID, name: $scope.name, email: $scope.email})
+             .then(function(data) {
+                 //First function handles success
+                 alert('worked');
+                 alert(data);
+                 //$scope.content = response.data;
+             }, function() {
+                 //Second function handles error
+                 alert('didnt work');
+
+             });
+
+               facebookConnectPlugin.getAccessToken(function(token) {
+                 alert("Token: " + token);
+                 localStorage.setItem("Token", token);
+               });
+       };
+
+       facebookConnectPlugin.api('me/?fields=id,name,email', ['email','public_profile'], fbLoginSuccess,
+         function (error) {
+           console.error(error);
+         }
+       );
+         } catch (e){
+         alert(e);
+       }
+       }, false);
+      };
+
+
+      //FACEBOOK SERVICE.JS LOGIN:
+      $scope.Servicefacebook = function () { AuthService.facebookLogin(); };
+
+
+      //FACEBOOK LOGIN!!!
+
+      // function myFunction() {
+      $scope.myFunction = function(){
+       console.log('worked');
+
+       document.addEventListener("deviceready", function() {
+        //   alert("device ready");
+       try {
+       if (window.cordova.platformId === "browser") {
+                var appId = xxxx6138889xxxx;
+                var version = "v2.0";      //tried for v.2.0 to v.2.7
+               facebookConnectPlugin.browserInit(appId, version);
+       }
+
+       //STEP 2)  LOGIN SUCCESS, WHICH THEN GETS FACEBOOK USER INFORMATION:
+        var fbLoginSuccess = function (userData) {
+             alert("worked" + JSON.stringify(userData));
+
+         facebookConnectPlugin.api('me/?fields=id,name,email', ['email','public_profile'],
+
+             function (userData) {
+                alert(userData.id);
+               alert(userData.name);
+               alert(userData.email);
+
+               $scope.userID = userData.id;
+               $scope.name = userData.name;
+               $scope.email = userData.email;
+
+       //STEP 3)  POSTS DATA TO BACKEND TO CHECK IF IN DATABASE:
+
+        $http.post('http://192.168.1.115:3000/facebookSignupLogin', {userID: $scope.userID, name: $scope.name, email: $scope.email})
+          .then(function(data) {
+              //First function handles success
+              alert('worked');
+              alert(data);
+              //$scope.content = response.data;
+          }, function() {
+              //Second function handles error
+              alert('didnt work');
+
+          });
+                },
+
+               function (error) {
+                 console.error(error);
+               }
+             );
+
+        };
+        //STEP 1) FACEBOOK LOGIN SCREEN:
+         facebookConnectPlugin.login(["email" ], fbLoginSuccess,
+             function (error) { alert("" + error); } );
+       } catch (e){
+         alert(e);
+       }
+       }, false);
+     };
+
+
+
+
+
+    // function myFunction6(){
+       $scope.gettoken = function(){   alert(localStorage.getItem("Token"));  };
+
+
+       $scope.foodItems = [{   name:'Noodles', price:'10', quantity:'1' },
+          { name:'Pasta', price:'20',  quantity:'2'   },
+          { name:'Pizza', price:'30',  quantity:'1'  },
+          { name:'Chicken tikka',  price:'100',  quantity:'1'  }];
 
 
       })
@@ -220,7 +337,7 @@ angular.module('starter.controllers', [])
             //  $location.path('/home');
           //  window.location.href = "#/home";
           //  window.location.replace("#/home");
-        }
+        };
 
           // Template for Storenames Modal
           $ionicModal.fromTemplateUrl('templates/modals/storemodal1.html', { scope: $scope
@@ -238,7 +355,7 @@ angular.module('starter.controllers', [])
 
           $timeout(function(){
           $scope.modal2.show();
-          },0)
+        },0);
 
 
 
@@ -249,7 +366,7 @@ angular.module('starter.controllers', [])
                  $cordovaGeolocation.getCurrentPosition(posOptions)
 
                  .then(function (position) {
-                    var lat22  = position.coords.latitude; var long22 = position.coords.longitude
+                    var lat22  = position.coords.latitude; var long22 = position.coords.longitude;
 
               $scope.$applyAsync(function () {
               $scope.latitude = lat22; $scope.longitude = long22; $scope.numberLinesZero = false;
@@ -265,9 +382,9 @@ angular.module('starter.controllers', [])
                 console.log(localStorage.getItem("StoreLongitude"));
 
               });
-                   console.log(lat22 + '   ' + long22)
+                   console.log(lat22 + '   ' + long22);
                }, function(err) {
-                  console.log(err)
+                  console.log(err);
                });
 
               }, 3000);
@@ -302,9 +419,9 @@ angular.module('starter.controllers', [])
                 startPage();
 
           function startPage () {
-              $scope.numberLinesZero = true;   $scope.findGPS(); ;
+              $scope.numberLinesZero = true;   $scope.findGPS();
               $rootScope.words = 'Please wait a moment for coordinates';  $rootScope.wordspace = true;
-          };
+          }
 
 
           /*   --------GETS STORES-----------     */
@@ -314,7 +431,7 @@ angular.module('starter.controllers', [])
                    $scope.numberLinesZero = false;
                    $scope.$apply(function () { $scope.countries = data; });
                  });
-            };
+            }
 
 
             socket.on('updateStores', function (data) {
@@ -329,7 +446,7 @@ angular.module('starter.controllers', [])
                   console.log("Data is returned: " + data);
                      $scope.$apply(function () { $scope.countries = data; });
                 });
-            }
+            };
 
 
                $scope.storeName ={sname:""};
@@ -346,19 +463,19 @@ angular.module('starter.controllers', [])
                           $scope.$apply(function () {
                             $rootScope.successful = true;
                                console.log($scope.successful);
-                               $scope.countries.push(data)
+                               $scope.countries.push(data);
                            $scope.storeName.sname = '';
                           });
 
                         setTimeout(function(){ stopSuccessBar(); }, 3000);
                       });
                    }
-              }
+              };
 
               socket.on('addStorename', function (data) {
                      console.log(data);
                     $scope.$apply(function () {
-                      $scope.countries.push(data)
+                      $scope.countries.push(data);
                        });
               });
 
@@ -366,7 +483,7 @@ angular.module('starter.controllers', [])
               /*   --------TIMEOUT FCN-----------     */
               function stopSuccessBar () {
                   $scope.$apply(function () { $rootScope.successful = false; console.log($scope.successful); });
-              };
+              }
 
             /*   --------DELETENAME-----------     */
 
@@ -388,10 +505,10 @@ angular.module('starter.controllers', [])
         });
 
           /*   --------DELETE MODE TOGGLE-----------     */
-          $scope.deleteMode = function(){   $rootScope.deleteButton = true; $scope.closestoremodal2();   }
+          $scope.deleteMode = function(){   $rootScope.deleteButton = true; $scope.closestoremodal2();   };
 
             /* ----------EXIT DELETE MODE -------------- */
-           $scope.exitDeleteMode = function(){    $rootScope.deleteButton = false;  }
+           $scope.exitDeleteMode = function(){    $rootScope.deleteButton = false;  };
 
              /*   --------LOCATION DATA ON PAGE-----------     */
         	$scope.grabStuff = function(names){
@@ -442,7 +559,7 @@ and all localStorage.getItem("LineNumber") to $scope.grabLinenumber  $state.go('
           $rootScope.numberLinesZero = false;
          }
 
-     }
+     };
 
     socket.emit('numberofLines',  {store:  localStorage.getItem("StoreName")  },function (data) {
       console.log(data); console.log(data.length);
@@ -454,10 +571,10 @@ and all localStorage.getItem("LineNumber") to $scope.grabLinenumber  $state.go('
 
 
    /*   --------DELETE MODE-----------     */
-   $scope.deleteMode = function(){     $rootScope.deleteButton = true; $scope.closelinemodal1();    }
+   $scope.deleteMode = function(){     $rootScope.deleteButton = true; $scope.closelinemodal1();    };
 
    /* ----------EXIT DELETE MODE -------------- */
-    $scope.exitDeleteMode = function(){     $rootScope.deleteButton = false;    }
+    $scope.exitDeleteMode = function(){     $rootScope.deleteButton = false;    };
 
    /*   --------LINE NUMBERS-----------     */
 
@@ -485,11 +602,11 @@ and all localStorage.getItem("LineNumber") to $scope.grabLinenumber  $state.go('
               socket.emit('addLine1',  {store : localStorage.getItem("StoreName"), line: $scope.addNumberDB, Adminpassword: $scope.usertoken },function (data) {
                 console.log(data);
                 //    THIS ADD SUCCESS BAR:
-                $rootScope.successful = true; $scope.countries.push(data)
+                $rootScope.successful = true; $scope.countries.push(data);
               setTimeout(function(){ stopSuccessBar(); }, 3000);
               });
              }
-       }
+       };
 
        /*   NOTE THIS MAY CAUSE SOME PROBLEMS IF SAVED NAME DOES NOT EQUAL DATA.STORE   */
 
@@ -504,7 +621,7 @@ and all localStorage.getItem("LineNumber") to $scope.grabLinenumber  $state.go('
        /*   --------TIMEOUT-----------     */
        function stopSuccessBar () {
          $scope.$apply(function () { $rootScope.successful = false; });
-       };
+       }
 
 
        /*   --------DELETE MODE-----------     */
@@ -555,7 +672,7 @@ and all localStorage.getItem("LineNumber") to $scope.grabLinenumber  $state.go('
   $scope.myObj = {
     "color" : "white",
     "background-color" : "coral"
-  }
+  };
 
 
 
@@ -607,7 +724,7 @@ and all localStorage.getItem("LineNumber") to $scope.grabLinenumber  $state.go('
 
 
 
-          $rootScope.goback2 = function(){ console.log('clicked3'); $ionicHistory.goBack(); }
+          $rootScope.goback2 = function(){ console.log('clicked3'); $ionicHistory.goBack(); };
 
           // Template for Storenames Modal
           $ionicModal.fromTemplateUrl('templates/modals/peoplemodal1.html', {   scope: $scope
@@ -727,7 +844,7 @@ and all localStorage.getItem("LineNumber") to $scope.grabLinenumber  $state.go('
           $scope.$apply(function () {  console.log(data);   console.log(data.email);   $scope.people.push(data);  });
           });
            $scope.closepeoplemodal1();
-      }
+      };
 
 
         /* ----------DISTANCE BETWEEN 2 SETS OF COORDINATES -------------- */
@@ -743,19 +860,19 @@ and all localStorage.getItem("LineNumber") to $scope.grabLinenumber  $state.go('
         /* ----------DISTANCE FORMULA -------------- */
 
         function distance(lat1, lon1, lat2, lon2, unit) {
-                var radlat1 = Math.PI * lat1/180
-                var radlat2 = Math.PI * lat2/180
-                var radlon1 = Math.PI * lon1/180
-                var radlon2 = Math.PI * lon2/180
-                var theta = lon1-lon2
-                var radtheta = Math.PI * theta/180
+                var radlat1 = Math.PI * lat1/180;
+                var radlat2 = Math.PI * lat2/180;
+                var radlon1 = Math.PI * lon1/180;
+                var radlon2 = Math.PI * lon2/180;
+                var theta = lon1-lon2;
+                var radtheta = Math.PI * theta/180;
                 var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-                dist = Math.acos(dist)
-                dist = dist * 180/Math.PI
-                dist = dist * 60 * 1.1515
-                if (unit=="K") { dist = dist * 1.609344 }
-                if (unit=="N") { dist = dist * 0.8684 }
-                return dist
+                dist = Math.acos(dist);
+                dist = dist * 180/Math.PI;
+                dist = dist * 60 * 1.1515;
+                if (unit==="K") { dist = dist * 1.609344; }
+                if (unit==="N") { dist = dist * 0.8684; }
+                return dist;
         }
 
 
@@ -786,7 +903,7 @@ and all localStorage.getItem("LineNumber") to $scope.grabLinenumber  $state.go('
                       });
                });
                 $scope.closepeoplemodal1();
-           }
+           };
 
 
          socket.on('updatePeople', function (data) {
@@ -945,9 +1062,9 @@ setInterval(function() {
                         });
 
                  });
-              }, function(err) {  console.log(err)  });
+              }, function(err) {  console.log(err);  });
             }, 5000);
-           }
+          };
 
 
            socket.on('optimizeReturned', function (data) {
@@ -974,9 +1091,9 @@ setInterval(function() {
 
          /* ----------DELETE MODE -------------- */
 
-        $scope.deleteMode = function(){  $rootScope.deleteButton = true; $scope.closepeoplemodal1();  }
+        $scope.deleteMode = function(){  $rootScope.deleteButton = true; $scope.closepeoplemodal1();  };
 
-         $scope.exitDeleteMode = function(){ $rootScope.deleteButton = false; }
+         $scope.exitDeleteMode = function(){ $rootScope.deleteButton = false; };
 
           /* ----------OPTIONS MODAL -------------- */
          $scope.optionsModa22 = function(){ $("#optionsModa22").modal("show"); }
@@ -985,10 +1102,10 @@ setInterval(function() {
            $scope.AddYourselfModal= function(){ $("#AddYourselfModal").modal("show"); }
 
            /* ----------POSITION BUTTON! -------------- */
-           $scope.positionButton = function(){ $rootScope.numberLinesZero2 = false; }
+           $scope.positionButton = function(){ $rootScope.numberLinesZero2 = false; };
 
            /* ----------DISPLACEMENT BUTTON! -------------- */
-           $scope.displacementButton = function(){ $rootScope.numberLinesZero2 = true; }
+           $scope.displacementButton = function(){ $rootScope.numberLinesZero2 = true; };
 
           /* ----------DELETE PEOPLE FUNCITON -------------- */
           $scope.deletePeople2 = function(email) { console.log("Email: " + email);

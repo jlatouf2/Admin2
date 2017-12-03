@@ -14,7 +14,8 @@ angular.module('starter').factory('AuthService' ,
           RegisterExample4: RegisterExample4,
           LoginExample3: LoginExample3,
           logout: logout,
-          confirm: confirm
+          confirm: confirm,
+          facebookLogin: facebookLogin
         });
 
 
@@ -32,7 +33,7 @@ angular.module('starter').factory('AuthService' ,
               //Its refered to as local because its stored in the database as local:
               $rootScope.userInfo= data.user.local; $rootScope.userEmail = data.user.local.email;
               $rootScope.userPassword = data.user.local.password;
-              }, function(posts) {});
+              }, function() {});
     }
 
 
@@ -47,9 +48,9 @@ angular.module('starter').factory('AuthService' ,
 
               $rootScope.userdata = data;
               $rootScope.userName = data.user.local;
-              console.log('This is the username in $rootScope: ' + $scope.userName);
+              console.log('This is the username in $rootScope: ' + $rootScope.userName);
 
-              }, function(posts) {});
+              }, function() {});
 
     }
 
@@ -71,8 +72,58 @@ angular.module('starter').factory('AuthService' ,
               $rootScope.fullName= data.firstname +" "+ data.lastname;
               $rootScope.userid= data._id;  $rootScope.userEmail = data.email;
               $rootScope.userPassword = data.password;
-              }, function(posts) {});
+              }, function() {});
     }
+
+
+
+
+    function facebookLogin(){
+       document.addEventListener("deviceready", function() {
+       try {
+      if (window.cordova.platformId === "browser") {
+               var appId = xxxx6138889xxxx; var version = "v2.0";      //tried for v.2.0 to v.2.7
+              facebookConnectPlugin.browserInit(appId, version);
+      }
+
+      //STEP 2)  LOGIN SUCCESS, WHICH THEN GETS FACEBOOK USER INFORMATION:
+       var fbLoginSuccess = function (userData) {
+          //  window.alert("worked" + JSON.stringify(userData));
+
+        facebookConnectPlugin.api('me/?fields=id,name,email', ['email','public_profile'],
+
+            function (userData) {
+               window.alert(userData.id); window.alert(userData.name);  window.alert(userData.email);
+               $rootScope.userID = userData.id; $rootScope.name = userData.name;  $rootScope.email = userData.email;
+
+      //STEP 3)  POSTS DATA TO BACKEND TO CHECK IF IN DATABASE:
+
+       $http.post('http://192.168.1.115:3000/facebookSignupLogin', {userID: $rootScope.userID, name: $rootScope.name, email: $rootScope.email})
+         .then(function(data) {
+
+             window.alert(data);
+
+              //PLEASE NOTE: TO GET THE FACEBOOK PICTURE THIS WAY I NEEDS
+              //TO GET THE USERID, BUT I DONT HAVE USERID SAVED IN THIS DATABASE
+              //SO
+
+             $rootScope.useremail = data.email;   $rootScope.fullName = data.firstname;
+             $rootScope.userid = data.facebook.id;
+
+             //$scope.content = response.data;
+
+         }, function() {  window.alert('didnt work'); });   },
+               function (error) { console.error(error);  }  );
+        };
+       //STEP 1) FACEBOOK LOGIN SCREEN:
+        facebookConnectPlugin.login(["email" ], fbLoginSuccess,
+            function (error) { window.alert("" + error); } );
+      } catch (e){ window.alert(e); }
+      }, false);
+
+    }
+
+
 
   //  var socket = io.connect('https://thawing-ocean-11742.herokuapp.com/#/:3000');
     //http://192.168.1.115: THIS WORKS FOR MOBILE LOGIN.
@@ -98,7 +149,7 @@ angular.module('starter').factory('AuthService' ,
             $rootScope.userid= data.user._id; $rootScope.useremail = data.user.email;
             $rootScope.userPassword = data.user.password;
             $rootScope.usertoken = data.token;
-            }, function(posts) {});
+            }, function() {});
     }
 
 
@@ -108,11 +159,11 @@ angular.module('starter').factory('AuthService' ,
             $rootScope.userid = null;     $rootScope.usertoken = null;
             $rootScope.userEmail = null;  $rootScope.fullName = null;
             $rootScope.userid = null;     $rootScope.userPassword = null;
-            
+
             $rootScope.imageSaved = false;
             $http.get('/logout')
-              .success(function (data) {    console.log('LOGGED OUT!');    })
-              .error(function (data) {      console.log('NOT LOGGED OUT!');   });
+              .success(function () {    console.log('LOGGED OUT!');    })
+              .error(function () {      console.log('NOT LOGGED OUT!');   });
               $location.path('/app/home');
     }
 

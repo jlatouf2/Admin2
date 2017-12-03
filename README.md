@@ -16,7 +16,7 @@ A starting project for Ionic that optionally supports using custom SCSS.
 -       To update the app for future releases:
 
 ******  REMEMBER TO CHANGE THE VERSIONCODE TO A HIGHER NUMBER, MAY NEED HIGHER THAN 3******
-1)ionic cordova build android --release -- -- --versionCode=4
+1)ionic cordova build android --release -- -- --versionCode=7
 
 2)Sign your release build with the key from your keystore. In below example the keystore is in the root of your project, but of course it's also possible to define another path:
 
@@ -40,6 +40,14 @@ https://example.herokuapp.com/ | https://git.heroku.com/example.git
 
 
 
+
+    TO MAKE THE FACEBOOK LOGIN RUN:
+
+1) cordova plugin add cordova-plugin-facebook4 --save --variable APP_ID="2042335766002685" --variable APP_NAME="Androidexample02"
+2) create ionic project
+3) add Android
+4) facebookConnectPlugin.login(["email" ], first THEN:
+5) facebookConnectPlugin.api('me/?fields=id,name,email', ['email','public_profile'],
 
 
 ## Using this project

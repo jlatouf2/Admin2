@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
@@ -24,9 +26,9 @@ app.use(express.static(path.join(__dirname, 'www')));
 
 
 var Store   = require('./www/config/storelocation');
-var Storeline = require('./www/config/storeline.js')
-var Track = require('./www/config/trackPosition.js')
-var PeopleLine = require('./www/config/peopleline.js')
+var Storeline = require('./www/config/storeline.js');
+var Track = require('./www/config/trackPosition.js');
+var PeopleLine = require('./www/config/peopleline.js');
 var UserStuff = require('./www/config/userinfo.js');
 var User   = require('./www/config/user');
 var Blue = require('./www/config/userblack.js');
@@ -104,9 +106,9 @@ var Usertwo = mongoose.model('Usertwo', userSchema);
 io.on('connection', function(socket){
      io.sockets.emit('broadcast',{ description:' clients connected!'});
 
-     socket.on('clientEvent', function () {     console.log('socket worked!')   });
+     socket.on('clientEvent', function () {     console.log('socket worked!');   });
 
-      socket.on('passInfo', function () {   console.log('this worked!')
+      socket.on('passInfo', function () {   console.log('this worked!');
   //  socket.emit('passInfoBack', { description: 'A custom event named testerEvent!'});
       });
 
@@ -115,51 +117,51 @@ io.on('connection', function(socket){
         console.log('data passed'); console.log(data);
           Store.find( {postal: data.postal})
             .exec(function(err, posts) {
-              if (err) { return next(err) }
+              if (err) { return next(err); }
                   callback(posts);
                   console.log(posts );
-            })
+            });
       });
 
       socket.on('storenameSearch', function (data, callback) {
              console.log(data);
               Store.find( {store: data.store})
               .exec(function(err, posts) {
-              if (err) { return next(err) }
+              if (err) { return next(err); }
                   callback(posts);
                   console.log(posts );
-            })
+            });
       });
 
-      socket.on('addStore', function (data, callback) {
+      socket.on('addStore', function (data) {
         console.log(data); console.log(data.store);
         console.log(data.latitude);
 
         var store = new Store({
           store: data.store,  postal: data.postal,
           latitude: data.latitude, longitude: data.longitude,
-          Adminpassword: data.Adminpassword  })
+          Adminpassword: data.Adminpassword  });
 
           store.save(function (err, post) {
-            if (err) { return next(err) }
+            if (err) { return next(err); }
         //   callback(post);
           io.emit('addStorename', post);
 
            console.log(post);
-          })
+          });
 
       });
 
 
-      socket.on('deleteStore44', function (data, callback) {
+      socket.on('deleteStore44', function (data) {
          console.log(data);
-         Store.remove({store: data.store}, function(err,removed) {
+         Store.remove({store: data.store}, function(err) {
              Store.find().exec(function(err, posts) {
-               if (err) { return next(err) }
+               if (err) { return next(err); }
                   console.log(posts);
               // callback(posts);
                io.emit('deleteUpdate', posts);
-             })
+             });
          });
       });
 
@@ -169,36 +171,36 @@ io.on('connection', function(socket){
          Storeline.find({store: data.store}, function( err, count){
              console.log( "Number of users:", count );
               callback(count);
-           })
+           });
       });
 
-      socket.on('optimizeData', function (data, callback) {
+      socket.on('optimizeData', function (data) {
         PeopleLine.update({ $and: [{store: data.store}, {line: data.line}, {email: data.email}]},
           {distance: data.distance})
           .exec(function(err, posts) {
-              if (err) { return next(err) }
+              if (err) { return next(err); }
           //  callback(posts);
           //  console.log(posts);
 
             PeopleLine.find({ $and: [{store: data.store}, {line: data.line}, {email: data.email}]})
               .exec(function(err, posts) {
-                  if (err) { return next(err) }
+                  if (err) { return next(err); }
                 io.emit('optimizeReturned', posts);
                  console.log(posts);
-                })
+                });
 
-            })
+            });
       });
 
 
-      socket.on('addLine1', function (data, callback) {
+      socket.on('addLine1', function (data) {
         console.log(data);
         console.log("number sent to DB: " + data.line);
         console.log("token: " + data.Adminpassword);
 
               Storeline.count({ $and: [{store: data.store}, {line: data.line}]}   )
                 .exec(function(err, count) {
-                    if (err) { return next(err) }
+                    if (err) { return next(err); }
 
                  console.log( "Number of users:", count );
                 if (count == 1) {
@@ -207,18 +209,18 @@ io.on('connection', function(socket){
 
                   var storeline = new Storeline({
                   store: data.store, line: data.line,
-                  Adminpassword: data.Adminpassword   })
+                  Adminpassword: data.Adminpassword   });
 
                   storeline.save(function (err, post) {
-                    if (err) { return next(err) }
+                    if (err) { return next(err); }
                   //  res.send(post)
                   io.emit('addLineStuff', post);
                   console.log(post);
                 //  callback(post);
-              })
+              });
             }
-        })
-      })
+        });
+    });
 
 
   /*    socket.on('addLine1', function (data, callback) {
@@ -246,20 +248,20 @@ io.on('connection', function(socket){
       socket.on('getPeopleLine', function (data, callback) {
         PeopleLine.find({ $and: [{store: data.store}, {line: data.line}]})
           .exec(function(err, posts) {
-              if (err) { return next(err) }
+              if (err) { return next(err); }
             callback(posts);  console.log(posts);
-            })
+            });
       });
 
       socket.on('getLineCoordinates', function (data, callback) {
         Store.find( {store: data.store})
           .exec(function(err, posts) {
-            if (err) { return next(err) }
+            if (err) { return next(err); }
           callback(posts);  console.log(posts);
-          })
+          });
       });
 
-      socket.on('addperson11', function (data, callback) {
+      socket.on('addperson11', function (data) {
         var newUser2 = PeopleLine({
           email : data.email, line: data.line,
           position: data.position,  store: data.store,
@@ -276,13 +278,13 @@ io.on('connection', function(socket){
       });
 
 
-      socket.on('optimizeData', function (data, callback) {
+      socket.on('optimizeData', function (data) {
         PeopleLine.find({ $and: [{store: data.store}, {line: data.line}, {email: data.email}]})
           .exec(function(err, posts) {
-              if (err) { return next(err) }
+              if (err) { return next(err); }
             //callback(posts);
             console.log(posts);
-            })
+            });
       });
 
 
@@ -293,21 +295,21 @@ io.on('connection', function(socket){
         PeopleLine.remove({$and: [{store: data.store}, {line: data.line}, {email: data.email} ]}, function(err,removed) {
           PeopleLine.find({store: data.store})
             .exec(function(err, posts) {
-          if (err) { return next(err) }
+          if (err) { return next(err); }
           callback(posts);  console.log(posts);
-            })
+        });
         });
       });
 
-      socket.on('deletePeopleLine55', function (data, callback) {
+      socket.on('deletePeopleLine55', function (data) {
         console.log(data.store); console.log(data.line); console.log(data.email);
         PeopleLine.remove({store: data.store, line: data.line, email: data.email}, function(err,removed) {
           PeopleLine.find({store: data.store, line: data.line}).exec(function(err, posts) {
-          if (err) { return next(err) }
+          if (err) { return next(err); }
           //callback(posts);
           io.emit('deletePeople55', posts);
              console.log(posts);
-               })
+               });
           });
       });
 //          PeopleLine.find({ $and: [{store: data.store}, {line: data.line}]}).exec(function(err, posts) {
@@ -320,10 +322,10 @@ io.on('connection', function(socket){
           if(bob2 !== undefined) {
             Store.find( {store: data.store, Adminpassword: data.Adminpassword})
               .exec(function(err, posts) {
-                if (err) { return next(err) }
+                if (err) { return next(err); }
 
               callback(posts);  console.log(posts);
-              })
+              });
           } else{
             console.log("Adminpassword was equal to undefined so query did not run!");
           }
@@ -331,18 +333,18 @@ io.on('connection', function(socket){
 
 
 
-      socket.on('deleteselectedLine', function (data, callback) {
+      socket.on('deleteselectedLine', function (data) {
         console.log('store: '+data.store);
         console.log('line: '+data.line);
         Storeline.remove({ $and: [{store: data.store}, {line: data.line}]}, function(err,removed) {
           Storeline.find({store: data.store}).exec(function(err, posts) {
-            if (err) { return next(err) }
+            if (err) { return next(err); }
             //callback(posts);
              io.emit('deleteLinesUpdate', posts);
                console.log(posts);
                // Add a javascript object to this with store: data.store so
                //that it will work right.
-          })
+          });
         });
       });
 
@@ -353,13 +355,13 @@ io.on('connection', function(socket){
             PeopleLine.find({store: data.store, line: data.line})
             .sort('created')
             .exec(function(err, posts) {
-            if (err) { return next(err) }
+            if (err) { return next(err); }
              console.log(posts);
 
               //gets certain timestamp:
               var blue = posts[number].created;
               console.log(blue);
-              var  white = blue.addSeconds(1)
+              var  white = blue.addSeconds(1);
               console.log(white);
 
 
@@ -376,7 +378,7 @@ io.on('connection', function(socket){
                callback(post);     console.log(post);
              });
 
-             })
+             });
 
       });
 
@@ -430,12 +432,12 @@ app.post('/signup22', function (req, res, next) {
           email: req.body.email, firstname: req.body.fname,
           lastname: req.body.lname, password: req.body.password,
           passwordConf: req.body.passwordConf
-        }
+        };
         //use schema.create to insert data into the db
         Blue.create(userData, function (err, user) {
-          if (err) { return next(err)
+          if (err) { return next(err);
           } else {
-            res.send(user)
+            res.send(user);
           //  return res.redirect('/profile');
           }
         });
@@ -465,11 +467,11 @@ app.post('/touchit', function(req, res) {
   console.log('workedit!');
 });
 
+
+
 app.post('/login22999', function(req, res) {
   console.log('PASSED TO BACKEND!');
-  Blue.findOne({
-    email: req.body.email
-  }, function(err, user) {
+  Blue.findOne({ email: req.body.email }, function(err, user) {
     if (err) throw err;
 
     if (!user) {
@@ -513,6 +515,89 @@ app.post('/login22999', function(req, res) {
   });
 });
 
+/*
+1) user.findOne
+2)if (!user) { add a new user with information into the database}
+3)password is not stored in my backend... so no user.comparePassword
+4)if email is found: then simply log the user in and you dont have to add anything to DB....
+
+to create user:
+
+var userData = {
+  email: req.body.email, firstname: req.body.fname,
+  lastname: req.body.lname, password: req.body.password,
+  passwordConf: req.body.passwordConf
+}
+//use schema.create to insert data into the db
+Blue.create(userData, function (err, user) {
+  if (err) { return next(err)
+  } else {
+    res.send(user)
+  //  return res.redirect('/profile');
+  }
+});
+
+*/
+
+
+//curl -X POST  http://localhost:3000/backedTouched
+
+app.post('/backedTouched', function(req, res) {
+  console.log('workedit!');
+  console.log(req.body.email);
+  console.log(req.body.userID);
+  console.log(req.body.name);
+
+});
+
+
+app.post('/facebookSignupLogin', function(req, res) {
+  console.log('PASSED TO BACKEND!');
+  console.log(req.body.email);
+  console.log(req.body.userID);
+  console.log(req.body.name);
+  console.log(typeof(req.body.email));
+  console.log(typeof(req.body.userID));
+  console.log(typeof(req.body.name));
+
+  Blue.findOne({ email: req.body.email }, function(err, user) {
+    if (err) {throw err;}
+    console.log(user);
+    if (!user) {
+    //  res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
+
+    //  var userData = { email: 'jlatouf2@gmail.com' };
+      var userData = {
+        email: req.body.email, firstname: req.body.name,
+        password: 'pass',
+        passwordConf: 'pass'
+      };
+
+      //use schema.create to insert data into the db
+      Blue.create(userData, function (err, user) {
+        if (err) { throw err;
+        } else {
+          res.send(user);
+        //  return res.redirect('/profile');
+        }
+      });
+
+    } else {
+      /*the user is found so log the user in:
+      THIS WILL THEN SEND IT BACK TO FUNCTION IN SERVER.JS WHICH WILL
+      1)SEND TO PROFILE page
+      2)SAVE DATA IN $ROOTSCOPE
+      */
+      console.log('user is already in database');
+
+      console.log(user);
+      res.send(user);
+    }
+  });
+});
+
+
+
 
 //    curl -X POST -H 'Content-Type: application/json' -d '{"email":"davidwalshr","password":"fsomethingt"}' http://localhost:3000/login3333
 
@@ -539,7 +624,7 @@ Valid OAuth redirect URIs
 
       app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/#/login' }),
         function(req, res, user) {
-        user : req.user // get the user out of session and pass to template
+        user : req.user// get the user out of session and pass to template
         //shitapp01.herokuapp.com
         //https://shitapp01.herokuapp.com/
 
@@ -864,7 +949,7 @@ app.post('/jp', function (req, res) {
 app.post('/stuff', function (req, res, next) {
   console.log("Worked!");
 
-})
+});
 
     /*---------- CHECKLINEADMIN --------------*/
 
@@ -880,24 +965,24 @@ app.post('/stuff', function (req, res, next) {
 
         Store.find( {store: req.body.store, Adminpassword: req.body.Adminpassword})
           .exec(function(err, posts) {
-            if (err) { return next(err) }
+            if (err) { return next(err); }
           res.send(posts);  console.log(posts);
       //Either passes no data back: store that doesn't have Adminpassword or passes store with Adminpassword
-          })
+    });
       } else{
         console.log("Adminpassword was equal to undefined so query did not run!");
       }
-    })
+    });
 
 
     /*---------- ADDSTORE FUNCTION: --------------*/
     app.post('/getLineCoordinates', function (req, res, next) {
       Store.find( {store: req.body.store})
         .exec(function(err, posts) {
-          if (err) { return next(err) }
+          if (err) { return next(err); }
         res.send(posts);  console.log(posts );
-        })
-    })
+        });
+    });
 
     /*---------- PEOPLELINE INFO  --------------*/
     //curl -X POST localhost:3000/peoplelineInfo
@@ -923,11 +1008,11 @@ app.post('/stuff', function (req, res, next) {
     app.post('/deletePeopleLine44', function (req, res, next) {
       PeopleLine.remove({line: req.body.line}, function(err,removed) {
         PeopleLine.find({store: req.body.store}, {line: req.body.line}).exec(function(err, posts) {
-        if (err) { return next(err) }
+        if (err) { return next(err); }
         res.send(posts);    console.log(posts);
-          })
       });
-    })
+      });
+    });
 
 
   //  curl -X POST -H 'Content-Type: application/json' -d '{"store":"blue", "line":"2"}' http://localhost:3000/deletePeop
@@ -939,26 +1024,26 @@ app.post('/stuff', function (req, res, next) {
     app.post('/deletePeop', function (req, res, next) {
       PeopleLine.remove({store: req.body.store, line: req.body.line, email: req.body.email}, function(err,removed) {
         PeopleLine.find({store: req.body.store, line: req.body.line}).exec(function(err, posts) {
-        if (err) { return next(err) }
+        if (err) { return next(err); }
         res.send(posts);    console.log(posts);
-             })
+      });
         });
-    })
+    });
 
  Date.prototype.addMinutes = function(minutes) {
      var copiedDate = new Date(this.getTime());
      return new Date(copiedDate.getTime() + minutes * 60000);
- }
+ };
 
  Date.prototype.addSeconds = function(seconds) {
      var copiedDate = new Date(this.getTime());
      return new Date(copiedDate.getTime() + seconds * 1000);
- }
+ };
 
  Date.prototype.addmSeconds = function(mseconds) {
      var copiedDate = new Date(this.getTime());
      return new Date(copiedDate.getTime() + mseconds * 100);
- }
+ };
 
 
  var now = new Date();
@@ -1182,5 +1267,5 @@ db.books.update(
     */
 
     http.listen(app.get('port'), function () {
-      console.log('Example app listening on port 9000!');
+      console.log('Example app listening on port 3000!');
     });
